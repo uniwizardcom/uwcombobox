@@ -3,17 +3,38 @@
  * @package UWCombobox
  * 
  * @param confObj = {
- * 	input - native JS object to text input element
+ * 	value		- selected value or null
+ * 	load		- method to force load data from source
+ *  open		- method to programically open list
+ *  close		- method to programically close list
+ * 	input		- native JS object to text input element
+ * 	buttons		- extra buttons for list
+ * 	onchange	- event on switch to other value from list
  * }
  * 
+ * TODO: Replace MOCK data source to Ajax source
+ * TODO: Support buttons
+ * TODO: Replace this MOCK data source to Ajax source
  * 
  * @returns
  */
+function ObjectIsEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+
+    return true;
+}
+
 function UWCombobox(confObj) {
 	
 	var publicObj = {
-			'value': null,
-			'load': null
+			/** selected value or null */
+			value: null,
+			
+			/** method to force load data from source */
+			load: null
 	};
 	
 	if(typeof confObj.onchange == 'function') {
@@ -88,7 +109,7 @@ function UWCombobox(confObj) {
 				this.listContainer = document.createElement('div');
 				this.listContainer.className = 'uwcombobox-list-container';
 				this.listContainer.style.width = '100%';
-				this.listContainer.style.height = '200px';
+				this.listContainer.style.maxHeight = '200px';
 				this.listContainer.style.overflowX = 'hidden';
 				this.listContainer.style.overflowY = 'auto';
 				
@@ -124,7 +145,7 @@ function UWCombobox(confObj) {
 				this.listView.style.top = (offset.top + offset.height)+'px';
 				this.listView.style.width = (offset.width)+'px';
 				
-				if(typeof publicObj.load == 'function') {
+				if((typeof publicObj.load == 'function') && ObjectIsEmpty(privateObj.dataCollection)) {
 					publicObj.load();
 				}
 			},
@@ -157,7 +178,6 @@ function UWCombobox(confObj) {
 					
 					this.listItemsView.innerHTML = '';
 					for(var itemKey in this.dataCollection) {
-						console.log(itemKey);
 						var item = document.createElement('li');
 						item.setAttribute('uwcombobox-list-data', itemKey);
 						item.innerHTML = this.dataCollection[itemKey];
@@ -169,7 +189,12 @@ function UWCombobox(confObj) {
 							this.className = 'visited';
 							tthis.close();
 							if(typeof publicObj.onchange == 'function') {
-								publicObj.onchange(this);
+								try {
+									publicObj.onchange(this);
+								}
+								catch(e){
+									console.log(e);
+								}
 							}
 						};
 						if(confObj.input.value == itemKey) {
@@ -178,7 +203,6 @@ function UWCombobox(confObj) {
 						this.listItemsView.appendChild(item);
 					}
 				}
-				console.log(this.listView);
 			},
 			close: function() {
 				if(this.background !== null) {
@@ -189,14 +213,15 @@ function UWCombobox(confObj) {
 	};
 	privateObj.prepareContainer(confObj.input);
 	
+	//TODO: Support buttons
 	if(typeof confObj.buttons == 'object') {
 		
 	}
 	
+	/** method to force load data from source */
 	publicObj.load = function() {
-		console.log(1);
+		//TODO: Replace this MOCK data source to Ajax source
 		setTimeout(function(){
-			console.log(2);
 			privateObj.dataCollection = {
 					'key 1': 'Value 1',
 					'key 2': 'Value 2',
@@ -213,10 +238,12 @@ function UWCombobox(confObj) {
 		}, 5000);
 	};
 	
+	/** method to programically open list */
 	publicObj.open = function() {
 		privateObj.createBackground();
 	};
 	
+	/** method to programically close list */
 	publicObj.close = function() {
 		privateObj.close();
 	};
@@ -224,13 +251,6 @@ function UWCombobox(confObj) {
 	window.addEventListener('resize', function(event){
 		privateObj.resizeBackground();
 	});
-	
-	function onMouseUpdate(e) {
-		privateObj.mousePos.x = e.pageX;
-		privateObj.mousePos.y = e.pageY;
-	}
-	document.addEventListener('mousemove', onMouseUpdate, false);
-	document.addEventListener('mouseenter', onMouseUpdate, false);
 	
 	return publicObj;
 }

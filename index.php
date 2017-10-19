@@ -54,6 +54,7 @@ $t = time();
 			}
 		},
 		onchange: function(){
+			window.alert(asdsadsdsdsdsdd);
 		}
 	});
 	//selectObj.load();
