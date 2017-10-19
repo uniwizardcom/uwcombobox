@@ -10,15 +10,37 @@ $t = time();
 		<link href="css/default.css?t=<?= $t ?>" rel="stylesheet">
 	</head>
 	<body>
-		<table border="1">
-			<tr>
-				<td></td>
-				<td>
-					<input id="first_select" />
-				</td>
-			</tr>
-		</table>
-	</body>
+		<div id="abcdef">
+			<table border="1">
+				<tr>
+					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>bbbbbb</td>
+				</tr>
+				<tr>
+					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>bbbbbb</td>
+				</tr>
+				<tr>
+					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>bbbbbb</td>
+				</tr>
+				<tr>
+					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>bbbbbb</td>
+				</tr>
+				<tr>
+					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>bbbbbb</td>
+				</tr>
+				<tr>
+					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>
+						<input id="first_select" />
+					</td>
+				</tr>
+			</table>
+		</body>
+	</div>
 	
 	<script>
 	var selectObj = UWCombobox({
@@ -32,7 +54,6 @@ $t = time();
 			}
 		},
 		onchange: function(){
-			window.alert(this.value);
 		}
 	});
 	//selectObj.load();

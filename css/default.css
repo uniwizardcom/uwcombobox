@@ -3,13 +3,52 @@
 #first_select {
 	padding:1px 2px 3px 4px;
 	margin:10px 20px 30px 40px;
-	width:100%;
+	width:50px;
 	border-left:5px solid #000;
 	border-top:5px solid #000;
 	border-right:5px solid #000;
 	border-bottom:5px solid #000;
 }
 
-.background {
-	background:yellow;
+.uwcombobox-list {
+	background: #f5f5f5;
+	border:1px solid #ccc;
+}
+
+.uwcombobox-list .uwcombobox-list-input {
+	border-bottom:1px solid #ccc;
+}
+
+.uwcombobox-list .uwcombobox-list-input input {
+	width:100%;
+	border:0;
+	margin:0;
+}
+
+.uwcombobox-list .uwcombobox-list-container ul,
+.uwcombobox-list .uwcombobox-list-container ul li {
+	display:block;
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+
+.uwcombobox-list .uwcombobox-list-container ul li {
+	cursor:pointer;
+	margin:2px;
+	padding:2px;
+}
+
+.uwcombobox-list .uwcombobox-list-container ul li:hover {
+	background:#eee;
+}
+
+.uwcombobox-list .uwcombobox-list-container ul li.visited {
+	background:#ddd;
+}
+
+#abcdef {
+	position:relative;
+	top:100px;
+	left:100px;
 }

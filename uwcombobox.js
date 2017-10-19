@@ -21,6 +21,10 @@ function UWCombobox(confObj) {
 	}
 	
 	var privateObj = {
+			mousePos: {
+					x: 0,
+					y: 0
+			},
 			divContainer: null,
 			dataCollection: {},
 			prepareContainer: function(inp) {
@@ -53,9 +57,14 @@ function UWCombobox(confObj) {
 				this.divContainer.appendChild(inp);
 				inp.style.display = 'none';
 				
+				this.viewContent = document.createElement('div');
+				this.viewContent.style.width = width+'px';
+				this.viewContent.style.height = height+'px';
+				this.divContainer.appendChild(this.viewContent);
+				
 				var tthis = this;
 				this.divContainer.onclick = function(){
-					tthis.createBackground();
+					tthis.createBackground(this);
 				};
 			},
 			refreshView: function() {
@@ -68,7 +77,6 @@ function UWCombobox(confObj) {
 				
 				var input = document.createElement('input');
 				input.setAttribute('type','text');
-				input.style.width = '99%';
 				var inputContainer = document.createElement('div');
 				inputContainer.className = 'uwcombobox-list-input';
 				inputContainer.style.width = '100%';
@@ -91,10 +99,11 @@ function UWCombobox(confObj) {
 			},
 
 			background: null,
+			viewContent: null,
 			listContainer: null,
 			listView: null,
 			listItemsView: null,
-			createBackground: function(width, height) {
+			createBackground: function(clickedObject) {
 				this.background = document.createElement('div');
 				this.background.style.top = '0px';
 				this.background.style.left = '0px';
@@ -104,18 +113,22 @@ function UWCombobox(confObj) {
 				document.body.appendChild(this.background);
 				
 				this.resizeBackground();
-				
 				this.background.onclick = function(){
 					this.parentNode.removeChild(this);
 					privateObj.listView.parentNode.removeChild(privateObj.listView);
 				}
 				this.refreshView();
 				
+				var offset = clickedObject.getBoundingClientRect();
+				this.listView.style.left = (offset.left)+'px';
+				this.listView.style.top = (offset.top + offset.height)+'px';
+				this.listView.style.width = (offset.width)+'px';
+				
 				if(typeof publicObj.load == 'function') {
 					publicObj.load();
 				}
 			},
-			resizeBackground: function(width, height) {
+			resizeBackground: function() {
 				if(this.background) {
 					var
 						width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
@@ -126,6 +139,14 @@ function UWCombobox(confObj) {
 				}
 			},
 			refreshListView: function() {
+				var tthis = this;
+				function resetItems() {
+					var liList = tthis.listItemsView.getElementsByTagName('li');
+					for(var i=0; i<liList.length; i++) {
+						liList[i].className = '';
+					}
+				}
+				
 				if(this.listItemsView) {
 					this.listItemsView.parentNode.removeChild(this.listItemsView);
 				}
@@ -141,15 +162,29 @@ function UWCombobox(confObj) {
 						item.setAttribute('uwcombobox-list-data', itemKey);
 						item.innerHTML = this.dataCollection[itemKey];
 						item.onclick = function(){
+							resetItems();
 							publicObj.value = this.getAttribute('uwcombobox-list-data');
+							tthis.viewContent.innerHTML = this.innerHTML;
+							confObj.input.value = publicObj.value;
+							this.className = 'visited';
+							tthis.close();
 							if(typeof publicObj.onchange == 'function') {
 								publicObj.onchange(this);
 							}
 						};
+						if(confObj.input.value == itemKey) {
+							item.className = 'visited';
+						}
 						this.listItemsView.appendChild(item);
 					}
 				}
 				console.log(this.listView);
+			},
+			close: function() {
+				if(this.background !== null) {
+					this.background.onclick();
+					this.background = null;
+				}
 			}
 	};
 	privateObj.prepareContainer(confObj.input);
@@ -183,15 +218,19 @@ function UWCombobox(confObj) {
 	};
 	
 	publicObj.close = function() {
-		if(privateObj.background !== null) {
-			privateObj.background.onclick();
-			privateObj.background = null;
-		}
+		privateObj.close();
 	};
 	
 	window.addEventListener('resize', function(event){
 		privateObj.resizeBackground();
 	});
+	
+	function onMouseUpdate(e) {
+		privateObj.mousePos.x = e.pageX;
+		privateObj.mousePos.y = e.pageY;
+	}
+	document.addEventListener('mousemove', onMouseUpdate, false);
+	document.addEventListener('mouseenter', onMouseUpdate, false);
 	
 	return publicObj;
 }
