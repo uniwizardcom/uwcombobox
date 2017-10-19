@@ -42,10 +42,6 @@ function UWCombobox(confObj) {
 	}
 	
 	var privateObj = {
-			mousePos: {
-					x: 0,
-					y: 0
-			},
 			divContainer: null,
 			dataCollection: {},
 			prepareContainer: function(inp) {
