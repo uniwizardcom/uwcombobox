@@ -23,6 +23,8 @@ function ObjectIsEmpty(obj) {
  * }
  * 
  * TODO: Support buttons
+ * TODO: Support forcing reload data
+ * TODO: Mobile (screen less 960px) wersion
  * 
  * @returns
  */
