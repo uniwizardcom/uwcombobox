@@ -6,10 +6,12 @@ $t = time();
 		<title>UWCombobox - Uniwizard</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<script src="js/default.js?t=<?= $t ?>"></script>
+		<script src="uwajax.js?t=<?= $t ?>"></script>
 		<script src="uwcombobox.js?t=<?= $t ?>"></script>
 		<link href="css/default.css?t=<?= $t ?>" rel="stylesheet">
 	</head>
 	<body>
+		<div id="ajax_status"></div>
 		<div id="abcdef">
 			<table border="1">
 				<tr>

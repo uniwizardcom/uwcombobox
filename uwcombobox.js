@@ -1,22 +1,6 @@
 /**
  * @author Uniwizard Wojciech Niewiadomski
  * @package UWCombobox
- * 
- * @param confObj = {
- * 	value		- selected value or null
- * 	load		- method to force load data from source
- *  open		- method to programically open list
- *  close		- method to programically close list
- * 	input		- native JS object to text input element
- * 	buttons		- extra buttons for list
- * 	onchange	- event on switch to other value from list
- * }
- * 
- * TODO: Replace MOCK data source to Ajax source
- * TODO: Support buttons
- * TODO: Replace this MOCK data source to Ajax source
- * 
- * @returns
  */
 function ObjectIsEmpty(obj) {
     for(var prop in obj) {
@@ -27,6 +11,21 @@ function ObjectIsEmpty(obj) {
     return true;
 }
 
+/**
+ * @param confObj = {
+ * 	value		- selected value or null
+ * 	load		- method to force load data from source
+ *  open		- method to programically open list
+ *  close		- method to programically close list
+ * 	input		- native JS object to text input element
+ * 	buttons		- extra buttons for list
+ * 	onchange	- event on switch to other value from list
+ * }
+ * 
+ * TODO: Support buttons
+ * 
+ * @returns
+ */
 function UWCombobox(confObj) {
 	
 	var publicObj = {
@@ -216,8 +215,24 @@ function UWCombobox(confObj) {
 	
 	/** method to force load data from source */
 	publicObj.load = function() {
-		//TODO: Replace this MOCK data source to Ajax source
-		setTimeout(function(){
+		
+		UWAjax({
+			url: './getdata.php',
+			method: 'post',
+			contentType: 'json',
+			data: {
+				'aaa': 'bbb',
+				'ccc': 'ddd'
+			},
+			onsuccess: function(data){
+				console.log(data);
+			},
+			oncompleted: function(data, status){
+				console.log(status, data);
+			}
+		}).start();
+		
+		/*setTimeout(function(){
 			privateObj.dataCollection = {
 					'key 1': 'Value 1',
 					'key 2': 'Value 2',
@@ -231,7 +246,7 @@ function UWCombobox(confObj) {
 					'key 0': 'Value 0',
 			};
 			privateObj.refreshListView();
-		}, 5000);
+		}, 5000);*/
 	};
 	
 	/** method to programically open list */
