@@ -30,7 +30,13 @@ function UWCombobox(confObj) {
 	
 	var publicObj = {
 			/** selected value or null */
-			value: null,
+			selectedValue: null,
+			
+			/** key (column) name for value from data record */
+			keyName: (typeof confObj.keyName != 'undefined') ? confObj.keyName : null,
+			
+			/** key (value) name for data record */
+			keyValue: (typeof confObj.keyValue != 'undefined') ? confObj.keyValue : null,
 			
 			/** method to force load data from source */
 			load: null
@@ -172,15 +178,15 @@ function UWCombobox(confObj) {
 					this.listContainer.appendChild(this.listItemsView);
 					
 					this.listItemsView.innerHTML = '';
-					for(var itemKey in this.dataCollection) {
+					for(var i=0; i<this.dataCollection.length; i++) {
 						var item = document.createElement('li');
-						item.setAttribute('uwcombobox-list-data', itemKey);
-						item.innerHTML = this.dataCollection[itemKey];
+						item.setAttribute('uwcombobox-list-data', this.dataCollection[i][publicObj.keyName]);
+						item.innerHTML = this.dataCollection[i][publicObj.keyValue];
 						item.onclick = function(){
 							resetItems();
-							publicObj.value = this.getAttribute('uwcombobox-list-data');
+							publicObj.selectedValue = this.getAttribute('uwcombobox-list-data');
 							tthis.viewContent.innerHTML = this.innerHTML;
-							confObj.input.value = publicObj.value;
+							confObj.input.value = publicObj.selectedValue;
 							this.className = 'visited';
 							tthis.close();
 							if(typeof publicObj.onchange == 'function') {
@@ -192,7 +198,7 @@ function UWCombobox(confObj) {
 								}
 							}
 						};
-						if(confObj.input.value == itemKey) {
+						if(confObj.input.value == this.dataCollection[i][publicObj.keyName]) {
 							item.className = 'visited';
 						}
 						this.listItemsView.appendChild(item);
@@ -225,28 +231,10 @@ function UWCombobox(confObj) {
 				'ccc': 'ddd'
 			},
 			onsuccess: function(data){
-				console.log(data);
-			},
-			oncompleted: function(data, status){
-				console.log(status, data);
+				privateObj.dataCollection = JSON.parse(data);
+				privateObj.refreshListView();
 			}
 		}).start();
-		
-		/*setTimeout(function(){
-			privateObj.dataCollection = {
-					'key 1': 'Value 1',
-					'key 2': 'Value 2',
-					'key 3': 'Value 3',
-					'key 4': 'Value 4',
-					'key 5': 'Value 5',
-					'key 6': 'Value 6',
-					'key 7': 'Value 7',
-					'key 8': 'Value 8',
-					'key 9': 'Value 9',
-					'key 0': 'Value 0',
-			};
-			privateObj.refreshListView();
-		}, 5000);*/
 	};
 	
 	/** method to programically open list */
