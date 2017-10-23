@@ -48,6 +48,7 @@ function UWAjax(confObj) {
 			sendAfterOpen: false,
 			contentTypes: {
 				'json': 'application/json',
+				'form': 'application/x-www-form-urlencoded',
 				'default': 'text/plain;charset=UTF-8'
 			}
 	};
@@ -56,8 +57,12 @@ function UWAjax(confObj) {
 			method:			(typeof confObj.method != 'undefined') ? confObj.method : 'post',
 			url:			(typeof confObj.url != 'undefined') ? confObj.url : '',
 			async:			(typeof confObj.async != 'undefined') ? !!confObj.async : true,
-			contentType:	((typeof confObj.contentType != 'undefined') && (typeof privateObj.contentTypes[confObj.contentType] != 'undefined'))
-								? privateObj.contentTypes[confObj.contentType]
+			contentType:	(typeof confObj.contentType != 'undefined')
+								? (
+										(typeof privateObj.contentTypes[confObj.contentType] != 'undefined')
+										? privateObj.contentTypes[confObj.contentType]
+										: confObj.contentType
+								)
 								: privateObj.contentTypes['default'],
 			data:			(typeof confObj.data != 'undefined') ? confObj.data : null,
 			
