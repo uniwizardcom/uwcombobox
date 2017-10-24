@@ -8,12 +8,13 @@ $t = time();
 		<script src="js/default.js?t=<?= $t ?>"></script>
 		<script src="uwajax.js?t=<?= $t ?>"></script>
 		<script src="uwcombobox.js?t=<?= $t ?>"></script>
-		<link href="css/default.css?t=<?= $t ?>" rel="stylesheet">
+		<link href="uwcombobox.css?t=<?= $t ?>" rel="stylesheet" />
+		<link href="css/default.css?t=<?= $t ?>" rel="stylesheet" />
 	</head>
 	<body>
 		<div id="ajax_status"></div>
 		<div id="abcdef">
-			<table border="1">
+			<table border="0">
 				<tr>
 					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
 					<td>bbbbbb</td>
@@ -49,16 +50,16 @@ $t = time();
 		input: document.getElementById('first_select'),
 		keyName: 'key',
 		keyValue: 'value',
-		buttons: {
+		/*buttons: {
 			'add': {
 				'title': 'Add',
 				'click': function(combobox, button) {
 					window.alert([combobox, button]);
 				}
 			}
-		},
+		},*/
 		onchange: function(){
-			window.alert(asdsadsdsdsdsdd);
+			window.alert(this.value);
 		}
 	});
 	//selectObj.load();
