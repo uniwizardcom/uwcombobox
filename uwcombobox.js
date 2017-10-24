@@ -122,11 +122,28 @@ function UWCombobox(confObj) {
 				
 				var input = document.createElement('input');
 				input.setAttribute('type','text');
+				
 				var inputContainer = document.createElement('div');
 				inputContainer.className = 'uwcombobox-list-input';
 				inputContainer.style.width = '100%';
 				inputContainer.style.overflow = 'hidden';
-				inputContainer.appendChild(input);
+				
+				var inputContContainer = document.createElement('div');
+				inputContContainer.style.float = 'left';
+				inputContContainer.appendChild(input);
+				inputContainer.appendChild(inputContContainer);
+				
+				var buttonDom = document.createElement('button');
+				buttonDom.setAttribute('type', 'button');
+				buttonDom.innerHTML = '*';
+				buttonDom.onclick = function(){
+					publicObj.load();
+				};
+				
+				var buttonContainer = document.createElement('div');
+				buttonContainer.style.float = 'right';
+				buttonContainer.appendChild(buttonDom);
+				inputContainer.appendChild(buttonContainer);
 				
 				this.listView.appendChild(inputContainer);
 				
@@ -139,7 +156,15 @@ function UWCombobox(confObj) {
 				
 				this.listView.appendChild(this.listContainer);
 				document.body.appendChild(this.listView);
-
+				
+				var w = GetWidth(inputContContainer) - GetWidth(buttonContainer);
+				var h = GetHeight(input);
+				input.style.width = w+'px';
+				buttonDom.style.height = h+'px';
+				buttonContainer.style.height = h+'px';
+				
+				console.log(GetWidth(inputContContainer), GetWidth(buttonContainer));
+				
 				this.refreshListView();
 			},
 
@@ -237,7 +262,7 @@ function UWCombobox(confObj) {
 	}
 	
 	if(typeof privateObj.buttonsDefault == 'object' && !ObjectIsEmpty(privateObj.buttonsDefault)) {
-		//var height = GetHeight(privateObj.viewContent.parentNode);
+		//var heigbuttonDombj.viewContent.parentNode);
 		privateObj.buttonsContainer = document.createElement('div');
 		privateObj.buttonsContainer.className = 'uwcombobox-buttons';
 		privateObj.buttonsContainer.style.float = 'right';
@@ -262,6 +287,7 @@ function UWCombobox(confObj) {
 		for(var buttonKey in privateObj.buttonsDefault) {
 			var button = privateObj.buttonsDefault[buttonKey];
 			var buttonDom = document.createElement('button');
+			buttonDom.setAttribute('type', 'button');
 			buttonDom.innerHTML = button.title;
 			if(typeof button.click == 'function') {
 				buttonDom.onclick = button.click;
