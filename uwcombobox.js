@@ -31,6 +31,9 @@ function UWCombobox(confObj) {
 			/** selected value or null */
 			value: null,
 			
+			/** selected recordValue or null */
+			recordValue: null,
+			
 			/** putting value for filter results */
 			filerValue: null,
 			
@@ -234,11 +237,13 @@ function UWCombobox(confObj) {
 				for(var i=0; i<this.dataCollection.length; i++) {
 					if(this.listItemsView) {
 						var item = document.createElement('li');
+						item.record = this.dataCollection[i];
 						item.setAttribute('uwcombobox-list-data', this.dataCollection[i][publicObj.keyName]);
 						item.innerHTML = this.dataCollection[i][publicObj.keyValue];
 						item.onclick = function(){
 							resetItems();
-							publicObj.value = this.getAttribute('uwcombobox-list-data');
+							publicObj.value = this.record[publicObj.keyName];
+							publicObj.recordValue = this.record;
 							tthis.viewContentText.innerHTML = this.innerHTML;
 							confObj.input.value = publicObj.value;
 							this.className = 'visited';
@@ -263,6 +268,7 @@ function UWCombobox(confObj) {
 					if(confObj.input.value == this.dataCollection[i][publicObj.keyName]) {
 						this.viewContentText.innerHTML = this.dataCollection[i][publicObj.keyValue];
 						publicObj.value = confObj.input.value;
+						publicObj.recordValue = this.dataCollection[i];
 					}
 				}
 			},
