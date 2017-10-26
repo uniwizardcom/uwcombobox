@@ -38,7 +38,7 @@ $t = time();
 				<tr>
 					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
 					<td>
-						<input id="first_select" />
+						<input id="first_select" value="" />
 					</td>
 				</tr>
 			</table>

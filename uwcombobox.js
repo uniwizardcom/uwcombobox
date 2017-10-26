@@ -11,7 +11,7 @@
  * 	onchange	- event on switch to other value from list
  * }
  * 
- * 
+ * TODO: Start getting filtered data after write letter/letters in filter input
  * TODO: Mobile (screen less 960px) wersion
  * 
  * @returns
@@ -259,10 +259,7 @@ function UWCombobox(confObj) {
 				buttonDom.style.height = h+'px';
 				
 				var buttonContainerWidth = GetWidthOutside(buttonContainer);
-				var w = inputContainerWidth - buttonContainerWidth;
-				console.log(w, inputContainerWidth, buttonContainerWidth);
-				
-				SetWidthOutside(inputContContainer, w);
+				SetWidthOutside(inputContContainer, inputContainerWidth - buttonContainerWidth);
 				buttonContainer.style.height = h+'px';
 				
 				this.refreshListView();
@@ -304,6 +301,17 @@ function UWCombobox(confObj) {
 				}
 			},
 			refreshListView: function() {
+				if(this.listItemsView) {
+					this.listItemsView.parentNode.removeChild(this.listItemsView);
+				}
+				if(this.listContainer) {
+					this.listItemsView = document.createElement('ul');
+					this.listContainer.appendChild(this.listItemsView);
+					this.listItemsView.innerHTML = '';
+					this.refreshValueOnView();
+				}
+			},
+			refreshValueOnView: function() {
 				var tthis = this;
 				function resetItems() {
 					var liList = tthis.listItemsView.getElementsByTagName('li');
@@ -311,17 +319,8 @@ function UWCombobox(confObj) {
 						liList[i].className = '';
 					}
 				}
-				
-				if(this.listItemsView) {
-					this.listItemsView.parentNode.removeChild(this.listItemsView);
-				}
-				
-				if(this.listContainer) {
-					this.listItemsView = document.createElement('ul');
-					this.listContainer.appendChild(this.listItemsView);
-					
-					this.listItemsView.innerHTML = '';
-					for(var i=0; i<this.dataCollection.length; i++) {
+				for(var i=0; i<this.dataCollection.length; i++) {
+					if(this.listItemsView) {
 						var item = document.createElement('li');
 						item.setAttribute('uwcombobox-list-data', this.dataCollection[i][publicObj.keyName]);
 						item.innerHTML = this.dataCollection[i][publicObj.keyValue];
@@ -347,6 +346,10 @@ function UWCombobox(confObj) {
 							item.className = 'visited';
 						}
 						this.listItemsView.appendChild(item);
+					}
+					
+					if(confObj.input.value == this.dataCollection[i][publicObj.keyName]) {
+						this.viewContentText.innerHTML = this.dataCollection[i][publicObj.keyValue];
 					}
 				}
 			},
@@ -419,9 +422,13 @@ function UWCombobox(confObj) {
 			onsuccess: function(data){
 				privateObj.dataCollection = JSON.parse(data);
 				privateObj.refreshListView();
+				privateObj.refreshValueOnView();
 			}
 		}).start();
 	};
+	
+	/** loading data on start */
+	publicObj.load();
 	
 	/** method to programically open list */
 	publicObj.open = function() {
