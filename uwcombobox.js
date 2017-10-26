@@ -262,6 +262,7 @@ function UWCombobox(confObj) {
 					
 					if(confObj.input.value == this.dataCollection[i][publicObj.keyName]) {
 						this.viewContentText.innerHTML = this.dataCollection[i][publicObj.keyValue];
+						publicObj.value = confObj.input.value;
 					}
 				}
 			},
@@ -304,6 +305,8 @@ function UWCombobox(confObj) {
 			buttonDom.className = className;
 			if(typeof button.click == 'function') {
 				buttonDom.onclick = button.click;
+				buttonDom.sender = button;
+				buttonDom.uwcombobox = publicObj;
 			}
 			privateObj.buttonsContainer.appendChild(buttonDom);
 			buttonDom.style.height = h+'px';
