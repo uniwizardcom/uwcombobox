@@ -52,6 +52,7 @@ function UWCombobox(confObj) {
 	}
 	
 	var privateObj = {
+			ajax: null,
 			background: null,
 			viewContent: null,
 			viewContentText: null,
@@ -121,11 +122,33 @@ function UWCombobox(confObj) {
 				inputContContainer.style.overflow = 'hidden';
 				inputContContainer.appendChild(input);
 				inputContainer.appendChild(inputContContainer);
-				
+
+				var tm = 0;
 				var buttonDom = document.createElement('div');
 				buttonDom.className = 'reload-button';
 				buttonDom.onclick = function(){
 					publicObj.load();
+					if(tm > 0) {
+						clearTimeout(tm);
+						tm = 0;
+					}
+				};
+				
+				function checkForPuttingSign() {
+					tm = setTimeout(function(){
+						input.onchange();
+						buttonDom.onclick();
+					}, 1000);
+				}
+				input.onkeyup = function(){
+					if(privateObj.ajax) {
+						privateObj.ajax.abort();
+					}
+					if(tm > 0) {
+						clearTimeout(tm);
+						tm = 0;
+					}
+					checkForPuttingSign();
 				};
 				
 				var buttonContainer = document.createElement('div');
@@ -315,8 +338,12 @@ function UWCombobox(confObj) {
 		if(!this.url) {
 			return;
 		}
+
+		if(privateObj.ajax) {
+			privateObj.ajax.abort();
+		}
 		
-		UWAjax({
+		privateObj.ajax = UWAjax({
 			url: this.url,
 			method: 'post',
 			contentType: 'json',
@@ -327,8 +354,12 @@ function UWCombobox(confObj) {
 				privateObj.dataCollection = JSON.parse(data);
 				privateObj.refreshListView();
 				privateObj.refreshValueOnView();
+			},
+			oncompleted: function(){
+				privateObj.ajax = null;
 			}
-		}).start();
+		});
+		privateObj.ajax.start();
 	};
 	
 	/** loading data on start */

@@ -77,7 +77,6 @@ function UWCss(obj) {
 				obj.style.width = value;
 				var wNew = parseFloat(window.getComputedStyle(obj, null).getPropertyValue('width')) - this.getBordersHorizontal().summ;
 				obj.style.width = wNew+'px';
-				obj.setAttribute('new-width', wNew);
 			},
 			
 			setWidthOutside: function (value) {
@@ -91,7 +90,6 @@ function UWCss(obj) {
 				obj.style.width = value;
 				var wNew = parseFloat(window.getComputedStyle(obj, null).getPropertyValue('width')) + this.getBordersHorizontal().summ;
 				obj.style.width = wNew+'px';
-				obj.setAttribute('new-width', wNew);
 			}
 	};
 	

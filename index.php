@@ -52,14 +52,14 @@ $t = time();
 		input: document.getElementById('first_select'),
 		keyName: 'key',
 		keyValue: 'value',
-		buttons: {
+		/*buttons: {
 			'add': {
 				'title': '<span class="my_button">Add</span>',
 				'click': function(combobox, button) {
 					window.alert([combobox, button]);
 				}
 			}
-		},
+		},*/
 		onchange: function(){
 			window.alert(this.value);
 		}

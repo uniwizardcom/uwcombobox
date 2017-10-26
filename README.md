@@ -1,3 +1,4 @@
+Interactive, cached combobox
 
 Tested on Win7
 - IE11 (32bit)
