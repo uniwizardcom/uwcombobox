@@ -11,7 +11,6 @@
  * 	onchange	- event on switch to other value from list
  * }
  * 
- * TODO: Start getting filtered data after write letter/letters in filter input
  * TODO: Mobile (screen less 960px) wersion
  * 
  * @returns
@@ -127,15 +126,14 @@ function UWCombobox(confObj) {
 				var buttonDom = document.createElement('div');
 				buttonDom.className = 'reload-button';
 				buttonDom.onclick = function(){
-					publicObj.load();
-					if(tm > 0) {
-						clearTimeout(tm);
-						tm = 0;
+					if(!privateObj.ajax) {
+						publicObj.load();
 					}
 				};
 				
 				function checkForPuttingSign() {
 					tm = setTimeout(function(){
+						tm = 0;
 						input.onchange();
 						buttonDom.onclick();
 					}, 1000);
