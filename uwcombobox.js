@@ -178,6 +178,8 @@ function UWCombobox(confObj) {
 					'width': '20px'
 				}
 			},
+			buttonOpen: null,
+			
 			prepareContainer: function(inp) {
 				var width = GetWidthOutside(inp), height = GetHeightOutside(inp);
 				
@@ -200,8 +202,8 @@ function UWCombobox(confObj) {
 				this.divContainer.appendChild(this.viewContent);
 				
 				var tthis = this;
-				this.divContainer.onclick = function(){
-					tthis.createBackground(this);
+				this.viewContent.onclick = function(){
+					tthis.createBackground(tthis.divContainer);
 				};
 			},
 			refreshView: function() {
@@ -284,7 +286,6 @@ function UWCombobox(confObj) {
 				var offset = clickedObject.getBoundingClientRect();
 				this.listView.style.left = (offset.left)+'px';
 				this.listView.style.top = (offset.top + offset.height)+'px';
-				//this.listView.style.width = (offset.width)+'px';
 				
 				if((typeof publicObj.load == 'function') && ObjectIsEmpty(privateObj.dataCollection)) {
 					publicObj.load();
@@ -371,13 +372,17 @@ function UWCombobox(confObj) {
 		privateObj.buttonsContainer.className = 'uwcombobox-buttons';
 		privateObj.buttonsContainer.style.float = 'right';
 
-		var w = GetWidthOutside(privateObj.viewContent), h = GetHeightInside(privateObj.viewContent);
+		var w = GetWidthOutside(privateObj.viewContent),
+			h = GetHeightInside(privateObj.viewContent)
+		;
 		
 		for(var buttonKey in privateObj.buttonsDefault) {
 			var button = privateObj.buttonsDefault[buttonKey], className = 'functional-button';
 			var buttonDom = document.createElement('div');
+			buttonDom.style.float = 'left';
 			if(typeof button.title != 'undefined') {
 				buttonDom.innerHTML = button.title;
+				buttonDom.title = button.title;
 			}
 			if(typeof button.className != 'undefined') {
 				className += button.className;
@@ -394,10 +399,15 @@ function UWCombobox(confObj) {
 			if(typeof button.width != 'undefined') {
 				buttonDom.style.width = button.width;
 			}
-			else {
-				buttonDom.style.width = h+'px';
+			
+			if(!privateObj.buttonOpen) {
+				privateObj.buttonOpen = buttonDom;
 			}
 		}
+		
+		privateObj.buttonOpen.onclick = function(){
+			privateObj.createBackground(privateObj.divContainer);
+		};
 		
 		privateObj.viewContent.parentNode.appendChild(privateObj.buttonsContainer);
 		privateObj.viewContent.style.float = 'left';

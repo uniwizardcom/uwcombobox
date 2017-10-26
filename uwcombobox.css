@@ -28,6 +28,7 @@
 .uwcombobox-buttons .functional-button {
 	background:transparent;
 	border:none;
+	cursor:default;
 }
 
 .uwcombobox-buttons .functional-button.arrow-down {

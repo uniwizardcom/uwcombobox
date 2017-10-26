@@ -38,7 +38,7 @@ $t = time();
 				<tr>
 					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
 					<td>
-						<input id="first_select" value="" />
+						<input id="first_select" value="key 7" />
 					</td>
 				</tr>
 			</table>
@@ -50,14 +50,14 @@ $t = time();
 		input: document.getElementById('first_select'),
 		keyName: 'key',
 		keyValue: 'value',
-		/*buttons: {
+		buttons: {
 			'add': {
-				'title': 'Add',
+				'title': '<span class="my_button">Add</span>',
 				'click': function(combobox, button) {
 					window.alert([combobox, button]);
 				}
 			}
-		},*/
+		},
 		onchange: function(){
 			window.alert(this.value);
 		}
