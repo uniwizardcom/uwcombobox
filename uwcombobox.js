@@ -332,7 +332,7 @@ function UWCombobox(confObj) {
 	}
 	
 	/** method to force load data from source */
-	publicObj.load = function() {
+	publicObj.load = function(onstart) {
 		if(!this.url) {
 			return;
 		}
@@ -351,7 +351,9 @@ function UWCombobox(confObj) {
 			onsuccess: function(data){
 				privateObj.dataCollection = JSON.parse(data);
 				privateObj.refreshListView();
-				privateObj.refreshValueOnView();
+				if(onstart === true) {
+					privateObj.refreshValueOnView();
+				}
 			},
 			oncompleted: function(){
 				privateObj.ajax = null;
@@ -361,7 +363,7 @@ function UWCombobox(confObj) {
 	};
 	
 	/** loading data on start */
-	publicObj.load();
+	publicObj.load(true);
 	
 	/** method to programically open list */
 	publicObj.open = function() {

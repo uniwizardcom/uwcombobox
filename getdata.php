@@ -13,7 +13,7 @@ $data = [
 		['key' => 'key 0', 'value' => 'Value 0']
 ];
 
-sleep(3);
+//sleep(3);
 
 if(!empty($_SERVER['CONTENT_TYPE'])) {
 	header('Content-Type: '. $_SERVER['CONTENT_TYPE']);
