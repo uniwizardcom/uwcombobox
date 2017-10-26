@@ -28,7 +28,7 @@ function UWCombobox(confObj) {
 	    return true;
 	}
 
-	function GetWidth(obj) {
+	function GetWidthOutside(obj) {
 		var computedStyle = window.getComputedStyle(obj, null),
 			w = parseFloat(computedStyle.getPropertyValue('width')),
 			pl = parseFloat(computedStyle.getPropertyValue('padding-left')),
@@ -41,7 +41,7 @@ function UWCombobox(confObj) {
 		return w + pl + pr + ml + mr + blw + brw;
 	}
 
-	function GetHeight(obj) {
+	function GetHeightOutside(obj) {
 		var computedStyle = window.getComputedStyle(obj, null),
 			h = parseFloat(computedStyle.getPropertyValue('height')),
 			pt = parseFloat(computedStyle.getPropertyValue('padding-top')),
@@ -53,10 +53,99 @@ function UWCombobox(confObj) {
 		;
 		return h + pt + pb + mt + mb + btw + bbw;
 	}
+
+	function GetWidthInside(obj) {
+		var computedStyle = window.getComputedStyle(obj, null),
+			w = parseFloat(computedStyle.getPropertyValue('width')),
+			pl = parseFloat(computedStyle.getPropertyValue('padding-left')),
+			pr = parseFloat(computedStyle.getPropertyValue('padding-right')),
+			ml = parseFloat(computedStyle.getPropertyValue('margin-left')),
+			mr = parseFloat(computedStyle.getPropertyValue('margin-right')),
+			blw = parseFloat(computedStyle.getPropertyValue('border-left-width')),
+			brw = parseFloat(computedStyle.getPropertyValue('border-right-width'))
+		;
+		return w - (pl + pr + ml + mr + blw + brw);
+	}
+
+	function GetHeightInside(obj) {
+		var computedStyle = window.getComputedStyle(obj, null),
+			h = parseFloat(computedStyle.getPropertyValue('height')),
+			pt = parseFloat(computedStyle.getPropertyValue('padding-top')),
+			pb = parseFloat(computedStyle.getPropertyValue('padding-bottom')),
+			mt = parseFloat(computedStyle.getPropertyValue('margin-top')),
+			mb = parseFloat(computedStyle.getPropertyValue('margin-bottom')),
+			btw = parseFloat(computedStyle.getPropertyValue('border-top-width')),
+			bbw = parseFloat(computedStyle.getPropertyValue('border-bottom-width'))
+		;
+		return h - (pt + pb + mt + mb + btw + bbw);
+	}
+
+	function SetWidthInside(obj, value) {
+		var computedStyle = window.getComputedStyle(obj, null),
+			w = parseFloat(computedStyle.getPropertyValue('width')),
+			pl = parseFloat(computedStyle.getPropertyValue('padding-left')),
+			pr = parseFloat(computedStyle.getPropertyValue('padding-right')),
+			ml = parseFloat(computedStyle.getPropertyValue('margin-left')),
+			mr = parseFloat(computedStyle.getPropertyValue('margin-right')),
+			blw = parseFloat(computedStyle.getPropertyValue('border-left-width')),
+			brw = parseFloat(computedStyle.getPropertyValue('border-right-width'))
+		;
+		var borders = pl + pr + ml + mr + blw + brw;
+		
+		var percent = ((Object.prototype.toString.call(value) === '[object String]') && (value.indexOf('%')>=0));
+		if(!percent) {
+			value = parseFloat(value);
+			if(isNaN(value)) {
+				return;
+			}
+			value += 'px';
+		}
+		
+		obj.style.width = value;
+		obj.setAttribute('old-width', value);
+		obj.setAttribute('old-borders', borders);
+		
+		var wNew = parseFloat(window.getComputedStyle(obj, null).getPropertyValue('width')) - borders;
+		obj.style.width = wNew+'px';
+		obj.setAttribute('new-width', wNew);
+	}
+	
+	function SetWidthOutside(obj, value) {
+		var computedStyle = window.getComputedStyle(obj, null),
+			w = parseFloat(computedStyle.getPropertyValue('width')),
+			pl = parseFloat(computedStyle.getPropertyValue('padding-left')),
+			pr = parseFloat(computedStyle.getPropertyValue('padding-right')),
+			ml = parseFloat(computedStyle.getPropertyValue('margin-left')),
+			mr = parseFloat(computedStyle.getPropertyValue('margin-right')),
+			blw = parseFloat(computedStyle.getPropertyValue('border-left-width')),
+			brw = parseFloat(computedStyle.getPropertyValue('border-right-width'))
+		;
+		var borders = pl + pr + ml + mr + blw + brw;
+		
+		var percent = ((Object.prototype.toString.call(value) === '[object String]') && (value.indexOf('%')>=0));
+		if(!percent) {
+			value = parseFloat(value);
+			if(isNaN(value)) {
+				return;
+			}
+			value += 'px';
+		}
+		
+		obj.style.width = value;
+		obj.setAttribute('old-width', value);
+		obj.setAttribute('old-borders', borders);
+		
+		var wNew = parseFloat(window.getComputedStyle(obj, null).getPropertyValue('width')) + borders;
+		obj.style.width = wNew+'px';
+		obj.setAttribute('new-width', wNew);
+	}
 	
 	var publicObj = {
 			/** selected value or null */
 			value: null,
+			
+			/** putting value for filter results */
+			filerValue: null,
 			
 			/** key (column) name for value from data record */
 			keyName: (typeof confObj.keyName != 'undefined') ? confObj.keyName : null,
@@ -90,7 +179,7 @@ function UWCombobox(confObj) {
 				}
 			},
 			prepareContainer: function(inp) {
-				var width = GetWidth(inp), height = GetHeight(inp);
+				var width = GetWidthOutside(inp), height = GetHeightOutside(inp);
 				
 				this.divContainer = document.createElement('div');
 				this.divContainer.style.width = width+'px';
@@ -125,6 +214,9 @@ function UWCombobox(confObj) {
 				
 				var input = document.createElement('input');
 				input.setAttribute('type','text');
+				input.onchange = function(){
+					publicObj.filerValue = this.value;
+				};
 				
 				var inputContainer = document.createElement('div');
 				inputContainer.className = 'uwcombobox-list-input';
@@ -133,12 +225,13 @@ function UWCombobox(confObj) {
 				
 				var inputContContainer = document.createElement('div');
 				inputContContainer.style.float = 'left';
+				inputContContainer.style.width = 'auto';
+				inputContContainer.style.overflow = 'hidden';
 				inputContContainer.appendChild(input);
 				inputContainer.appendChild(inputContContainer);
 				
 				var buttonDom = document.createElement('div');
 				buttonDom.className = 'reload-button';
-				//buttonDom.innerHTML = '*';
 				buttonDom.onclick = function(){
 					publicObj.load();
 				};
@@ -160,11 +253,16 @@ function UWCombobox(confObj) {
 				this.listView.appendChild(this.listContainer);
 				document.body.appendChild(this.listView);
 
-				var h = GetHeight(inputContContainer);
+				var inputContainerWidth = GetWidthOutside(inputContainer);
+				var h = GetHeightOutside(inputContContainer);
 				buttonDom.style.width = h+'px';
 				buttonDom.style.height = h+'px';
-				var w = GetWidth(inputContContainer) - GetWidth(buttonContainer);
-				input.style.width = w+'px';
+				
+				var buttonContainerWidth = GetWidthOutside(buttonContainer);
+				var w = inputContainerWidth - buttonContainerWidth;
+				console.log(w, inputContainerWidth, buttonContainerWidth);
+				
+				SetWidthOutside(inputContContainer, w);
 				buttonContainer.style.height = h+'px';
 				
 				this.refreshListView();
@@ -189,7 +287,7 @@ function UWCombobox(confObj) {
 				var offset = clickedObject.getBoundingClientRect();
 				this.listView.style.left = (offset.left)+'px';
 				this.listView.style.top = (offset.top + offset.height)+'px';
-				this.listView.style.width = (offset.width)+'px';
+				//this.listView.style.width = (offset.width)+'px';
 				
 				if((typeof publicObj.load == 'function') && ObjectIsEmpty(privateObj.dataCollection)) {
 					publicObj.load();
@@ -266,28 +364,11 @@ function UWCombobox(confObj) {
 	}
 	
 	if(typeof privateObj.buttonsDefault == 'object' && !ObjectIsEmpty(privateObj.buttonsDefault)) {
-		//var heigbuttonDombj.viewContent.parentNode);
 		privateObj.buttonsContainer = document.createElement('div');
 		privateObj.buttonsContainer.className = 'uwcombobox-buttons';
 		privateObj.buttonsContainer.style.float = 'right';
 
-		var computedStyle = window.getComputedStyle(privateObj.viewContent, null);
-		var w = parseFloat(computedStyle.getPropertyValue('padding-left'))
-			+ parseFloat(computedStyle.getPropertyValue('padding-right'))
-			+ parseFloat(computedStyle.getPropertyValue('margin-left'))
-			+ parseFloat(computedStyle.getPropertyValue('margin-right'))
-			+ parseFloat(computedStyle.getPropertyValue('border-left-width'))
-			+ parseFloat(computedStyle.getPropertyValue('border-right-width'))
-		;
-		var h = parseFloat(computedStyle.getPropertyValue('height'))
-			- (parseFloat(computedStyle.getPropertyValue('padding-top'))
-			+ parseFloat(computedStyle.getPropertyValue('padding-bottom'))
-			+ parseFloat(computedStyle.getPropertyValue('margin-top'))
-			+ parseFloat(computedStyle.getPropertyValue('margin-bottom'))
-			+ parseFloat(computedStyle.getPropertyValue('border-top-width'))
-			+ parseFloat(computedStyle.getPropertyValue('border-bottom-width'))
-			)
-		;
+		var w = GetWidthOutside(privateObj.viewContent), h = GetHeightInside(privateObj.viewContent);
 		
 		for(var buttonKey in privateObj.buttonsDefault) {
 			var button = privateObj.buttonsDefault[buttonKey], className = 'functional-button';
@@ -317,28 +398,23 @@ function UWCombobox(confObj) {
 		
 		privateObj.viewContent.parentNode.appendChild(privateObj.buttonsContainer);
 		privateObj.viewContent.style.float = 'left';
-
-		var widthButtonsContainer = parseFloat(window.getComputedStyle(privateObj.buttonsContainer, null).getPropertyValue('width'));
-		var widthParentContainer = parseFloat(window.getComputedStyle(privateObj.viewContent.parentNode, null).getPropertyValue('width'));
 		
-		var widthButtonsContainer = GetWidth(privateObj.buttonsContainer);
-		var widthParentContainer = GetWidth(privateObj.viewContent.parentNode);
-
+		var widthButtonsContainer = GetWidthOutside(privateObj.buttonsContainer);
+		var widthParentContainer = GetWidthOutside(privateObj.viewContent.parentNode);
+		
 		privateObj.viewContent.style.height = h+'px';
-		privateObj.viewContent.style.width = (widthParentContainer - widthButtonsContainer - w)+'px';
+		SetWidthInside(privateObj.viewContent, widthParentContainer - widthButtonsContainer);
 		privateObj.buttonsContainer.style.height = h+'px';
 	}
 	
 	/** method to force load data from source */
 	publicObj.load = function() {
-		
 		UWAjax({
 			url: './getdata.php',
 			method: 'post',
 			contentType: 'json',
 			data: {
-				'aaa': 'bbb',
-				'ccc': 'ddd'
+				'filter': this.filerValue
 			},
 			onsuccess: function(data){
 				privateObj.dataCollection = JSON.parse(data);
