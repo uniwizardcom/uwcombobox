@@ -42,7 +42,9 @@ function UWCombobox(confObj) {
 			keyValue: (typeof confObj.keyValue != 'undefined') ? confObj.keyValue : null,
 			
 			/** method to force load data from source */
-			load: null
+			load: null,
+			
+			url: (typeof confObj.url != 'undefined') ? confObj.url : null
 	};
 	
 	if(typeof confObj.onchange == 'function') {
@@ -310,8 +312,12 @@ function UWCombobox(confObj) {
 	
 	/** method to force load data from source */
 	publicObj.load = function() {
+		if(!this.url) {
+			return;
+		}
+		
 		UWAjax({
-			url: './getdata.php',
+			url: this.url,
 			method: 'post',
 			contentType: 'json',
 			data: {

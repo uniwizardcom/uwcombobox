@@ -48,6 +48,7 @@ $t = time();
 	
 	<script>
 	var selectObj = UWCombobox({
+		url: './getdata.php',
 		input: document.getElementById('first_select'),
 		keyName: 'key',
 		keyValue: 'value',
