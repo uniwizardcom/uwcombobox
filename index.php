@@ -44,6 +44,7 @@ $t = time();
 		</body>
 	</div>
 	<input id="second_select" value="key 4" />
+	<input id="select_3" value="key 6" />
 	
 	<script>
 	var selectObj = UWCombobox({
@@ -89,6 +90,36 @@ $t = time();
 			//window.alert(this.value);
 		}
 	});
-	//selectObj.load();
+	var selectObj3 = UWCombobox({
+		url: './getdata.php',
+		input: document.getElementById('select_3'),
+		keyName: 'key',
+		keyValue: 'value',
+		view: 'mobile',
+		buttons: {
+			'add': {
+				'title': '<span class="my_button">Add</span>',
+				'click': function(e) {
+					console.log([
+						e,								// Standard click event object
+						selectObj2,						// External object
+						this.sender,					// This UWButton object
+						this.uwcombobox,				// Internal object
+						selectObj === this.uwcombobox,	// Compare external with internal objects
+						selectObj2 === this.uwcombobox	// Compare external with internal objects
+					]);
+					
+					window.alert([
+						this.uwcombobox.value,	// Getting value from internal object
+						selectObj.value			// Getting value from external object
+					]);
+				}
+			}
+		},
+		onchange: function(){
+			//window.alert(this.value);
+		}
+	});
+	
 	</script>
 </html>

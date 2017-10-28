@@ -46,7 +46,10 @@ function UWCombobox(confObj) {
 			/** method to force load data from source */
 			load: null,
 			
-			url: (typeof confObj.url != 'undefined') ? confObj.url : null
+			url: (typeof confObj.url != 'undefined') ? confObj.url : null,
+			
+			
+			view: (typeof confObj.view != 'undefined') ? confObj.view : 'default'
 	};
 	
 	if(typeof confObj.onchange == 'function') {
