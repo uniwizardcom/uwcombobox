@@ -1,6 +1,11 @@
 /**
  * @author Uniwizard Wojciech Niewiadomski
  * @package UWCombobox
+ * 
+ * Default combobox - standard pull-out list like select HTML element
+ * 
+ * TODO: Multi select (with Ctrl button)
+ * 
  * */
 
 function ObjectIsEmpty(obj) {

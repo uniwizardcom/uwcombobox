@@ -11,8 +11,6 @@
  * 	onchange	- event on switch to other value from list
  * }
  * 
- * TODO: Mobile (screen less 960px) wersion
- * 
  * @returns
  */
 

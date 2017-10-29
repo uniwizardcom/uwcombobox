@@ -1,6 +1,14 @@
 /**
  * @author Uniwizard Wojciech Niewiadomski
  * @package UWCombobox
+ * 
+ * Combobox with boxed view dedicated for mobile devices and other with touched screen
+ * 
+ * TODO: Mobile view
+ * TODO: Multi select, with:
+ * - check for multiselect
+ * - select list in other view
+ * 
  * */
 
 function ObjectIsEmpty(obj) {
