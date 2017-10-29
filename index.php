@@ -5,11 +5,10 @@ $t = time();
 	<head>
 		<title>UWCombobox - Uniwizard</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<script src="uwbasic.js?t=<?= $t ?>"></script>
-		<script src="uwajax.js?t=<?= $t ?>"></script>
-		<script src="uwcss.js?t=<?= $t ?>"></script>
-		<script src="uwcombobox.js?t=<?= $t ?>"></script>
-		<link href="uwcombobox.css?t=<?= $t ?>" rel="stylesheet" />
+		<script src="./uwajax.js?t=<?= $t ?>"></script>
+		<script src="./uwcss.js?t=<?= $t ?>"></script>
+		<script src="./uwcombobox.js?t=<?= $t ?>"></script>
+		<link href="./uwcombobox.css?t=<?= $t ?>" rel="stylesheet" />
 	</head>
 	<body>
 		<div id="ajax_status"></div>
@@ -38,14 +37,14 @@ $t = time();
 				<tr>
 					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
 					<td>
-						<input id="first_select" value="key 7" />
+						<input id="first_select" type="text" value="key 7" />
 					</td>
 				</tr>
 			</table>
 		</body>
 	</div>
-	<input id="second_select" value="key 4" />
-	<input id="select_3" value="key 6" />
+	<input id="second_select" type="text" value="key 4" />
+	<input id="select_3" type="text" value="key 6" />
 	
 	<script>
 	var selectObj = UWCombobox({

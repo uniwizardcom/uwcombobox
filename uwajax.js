@@ -157,7 +157,6 @@ function UWAjax(confObj) {
 				if(typeof confObj.onconnectionestablished == 'function') {
 					confObj.onconnectionestablished();
 				}
-				console.log( publicObj.contentType );
 				this.setRequestHeader('Content-Type', publicObj.contentType);
 				if(privateObj.sendAfterOpen) {
 					publicObj.send();
