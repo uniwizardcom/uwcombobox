@@ -51,22 +51,6 @@ $t = time();
 	</fieldset>
 	
 	<script>
-	/*window.addEventListener('zoom', function(event){
-		var
-			width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-			height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-		;
-		var ratio = window.devicePixelRatio || 1;
-		var w = screen.width * ratio;
-		var h = screen.height * ratio;
-
-		//document.getElementById('aaaaa').innerHTML = '['+width+'|'+screen.width+']';
-		//document.getElementById('bbbbb').innerHTML = '['+height+'|'+screen.height+']';
-		document.getElementById('aaaaa').innerHTML = '['+w+']';
-		document.getElementById('bbbbb').innerHTML = '['+h+']';
-	});*/
-
-	
 	var selectObj = UWCombobox({
 		url: './getdata.php',
 		input: document.getElementById('first_select'),

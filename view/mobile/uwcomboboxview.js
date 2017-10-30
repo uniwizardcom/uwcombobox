@@ -74,8 +74,6 @@ function UWComboboxView(directParent) {
 				;
 				
 				if(privateObj.listView) {
-					document.getElementById('aaaaa').innerHTML = '['+rw+']';
-					document.getElementById('bbbbb').innerHTML = '['+rh+']';
 					privateObj.listView.style.fontSize = (rw*300)+'%';
 				}
 				
