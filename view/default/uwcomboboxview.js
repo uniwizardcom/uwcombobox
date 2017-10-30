@@ -55,7 +55,7 @@ function UWComboboxView(directParent) {
 				privateObj.background.style.left = '0px';
 				privateObj.background.style.position = 'fixed';
 				privateObj.background.style.zIndex = '1000';
-				privateObj.background.className = 'background';
+				privateObj.background.className = 'uwcomboboxdefault background';
 				document.body.appendChild(privateObj.background);
 				
 				this.resizeBackground();
@@ -152,6 +152,7 @@ function UWComboboxView(directParent) {
 				
 				this.domInput = inp;
 				privateObj.divContainer = document.createElement('div');
+				privateObj.divContainer.className = 'uwcomboboxmedia';
 				privateObj.divContainer.style.width = width+'px';
 				privateObj.divContainer.style.height = height+'px';
 				privateObj.divContainer.style.overflow = 'hidden';
@@ -179,7 +180,7 @@ function UWComboboxView(directParent) {
 				var tthis = this;
 				
 				privateObj.listView = document.createElement('div');
-				privateObj.listView.className = 'uwcombobox-list';
+				privateObj.listView.className = 'uwcomboboxdefault uwcombobox-list';
 				privateObj.listView.style.top = '0px';
 				privateObj.listView.style.left = '0px';
 				privateObj.listView.style.position = 'fixed';
@@ -288,7 +289,7 @@ function UWComboboxView(directParent) {
 							directParent.value = this.record[tthis.confValues.keyName];
 							directParent.recordValue = this.record;
 							privateObj.viewContentText.innerHTML = this.innerHTML;
-							tthis.domInput.value = tthis.value;
+							tthis.domInput.value = directParent.value;
 							this.className = 'visited';
 							tthis.close();
 							setTimeout(function(){

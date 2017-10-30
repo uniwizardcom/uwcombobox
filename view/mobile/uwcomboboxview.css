@@ -1,1 +1,110 @@
 @CHARSET "UTF-8";
+
+.uwcomboboxmedia.background,
+.uwcomboboxmedia.uwcombobox-list {
+	background:rgba(100, 100, 100, 0.7);
+}
+
+.uwcomboboxmedia.background {
+	position:fixed;
+	z-index:1000;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+}
+
+.uwcomboboxmedia.uwcombobox-list {
+	position:absolute;
+	z-index:1001;
+	top:100px;
+	left:100px;
+	right:100px;
+	
+	background:#f5f5f5;
+	border-top:none;
+	border-left:1px solid #ccc;
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	
+	font-size:16px;
+}
+
+.uwcomboboxmedia .uwcombobox-control,
+.uwcomboboxmedia .uwcombobox-buttons {
+	background:#f5f5f5;
+	border:none;
+}
+
+.uwcomboboxmedia .uwcombobox-control {
+	border-top:1px solid #ccc;
+	border-left:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+}
+
+.uwcomboboxmedia .uwcombobox-buttons {
+	border-top:1px solid #ccc;
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+}
+
+.uwcomboboxmedia .uwcombobox-buttons .functional-button {
+	background:transparent;
+	border:none;
+	cursor:default;
+}
+
+.uwcomboboxmedia .uwcombobox-buttons .functional-button.arrow-down {
+	background: url('./arrow_down_15x15.png') no-repeat center;
+}
+
+.uwcomboboxmedia .uwcombobox-control .uwcombobox-contenttext {
+	font-size:90%;
+	width:95%;
+	height:80%;
+	margin:1% auto;
+}
+
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-input {
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+}
+
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-input input {
+	font-size:90%;
+	width:100%;
+	border:0;
+	margin:0;
+	padding:1px 2px;
+}
+
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-input .reload-button {
+	background: url('./refresh_15x15.png') no-repeat center;
+}
+
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container {
+	max-height:300px;
+}
+
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul,
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul li {
+	display:block;
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul li {
+	background: url('./select_dot_20x20.png') no-repeat left center;
+	cursor:pointer;
+	margin:2px;
+	padding:3px 3px 3px 23px;
+}
+
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul li:hover {
+	background: url('./select_dot_20x20.png') no-repeat left center #eee;
+}
+
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul li.visited {
+	background: url('./select_dot_center_20x20.png') no-repeat left center #ddd;
+}

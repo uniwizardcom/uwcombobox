@@ -15,27 +15,27 @@ $t = time();
 		<div id="abcdef">
 			<table border="0">
 				<tr>
-					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td><div id="aaaaa"></div></td>
+					<td><div id="bbbbb"></div></td>
+				</tr>
+				<tr>
+					<td>aaaaaa</td>
 					<td>bbbbbb</td>
 				</tr>
 				<tr>
-					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>aaaaaa</td>
 					<td>bbbbbb</td>
 				</tr>
 				<tr>
-					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>aaaaaa</td>
 					<td>bbbbbb</td>
 				</tr>
 				<tr>
-					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>aaaaaa</td>
 					<td>bbbbbb</td>
 				</tr>
 				<tr>
-					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-					<td>bbbbbb</td>
-				</tr>
-				<tr>
-					<td>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+					<td>aaaaaa</td>
 					<td>
 						<input id="first_select" type="text" value="key 7" />
 					</td>
@@ -44,9 +44,29 @@ $t = time();
 		</body>
 	</div>
 	<input id="second_select" type="text" value="key 4" />
-	<input id="select_3" type="text" value="key 6" />
+	
+	<fieldset>
+		<legend>Mobile combobox</legend>
+		<input id="select_3" type="text" value="key 6" />
+	</fieldset>
 	
 	<script>
+	/*window.addEventListener('zoom', function(event){
+		var
+			width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+			height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+		;
+		var ratio = window.devicePixelRatio || 1;
+		var w = screen.width * ratio;
+		var h = screen.height * ratio;
+
+		//document.getElementById('aaaaa').innerHTML = '['+width+'|'+screen.width+']';
+		//document.getElementById('bbbbb').innerHTML = '['+height+'|'+screen.height+']';
+		document.getElementById('aaaaa').innerHTML = '['+w+']';
+		document.getElementById('bbbbb').innerHTML = '['+h+']';
+	});*/
+
+	
 	var selectObj = UWCombobox({
 		url: './getdata.php',
 		input: document.getElementById('first_select'),

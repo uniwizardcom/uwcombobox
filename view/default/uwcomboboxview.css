@@ -1,53 +1,53 @@
 @CHARSET "UTF-8";
 
-.uwcombobox-control,
-.uwcombobox-buttons,
-.uwcombobox-list {
+.uwcomboboxdefault .uwcombobox-control,
+.uwcomboboxdefault .uwcombobox-buttons,
+.uwcomboboxdefault.uwcombobox-list {
 	background:#f5f5f5;
 	border:none;
 }
 
-.uwcombobox-control {
+.uwcomboboxdefault .uwcombobox-control {
 	border-top:1px solid #ccc;
 	border-left:1px solid #ccc;
 	border-bottom:1px solid #ccc;
 }
 
-.uwcombobox-buttons {
+.uwcomboboxdefault .uwcombobox-buttons {
 	border-top:1px solid #ccc;
 	border-right:1px solid #ccc;
 	border-bottom:1px solid #ccc;
 }
 
-.uwcombobox-list {
+.uwcomboboxdefault.uwcombobox-list {
 	border-left:1px solid #ccc;
 	border-right:1px solid #ccc;
 	border-bottom:1px solid #ccc;
 }
 
-.uwcombobox-buttons .functional-button {
+.uwcomboboxdefault .uwcombobox-buttons .functional-button {
 	background:transparent;
 	border:none;
 	cursor:default;
 }
 
-.uwcombobox-buttons .functional-button.arrow-down {
+.uwcomboboxdefault .uwcombobox-buttons .functional-button.arrow-down {
 	background: url('./arrow_down_15x15.png') no-repeat center;
 }
 
-.uwcombobox-control .uwcombobox-contenttext {
+.uwcomboboxdefault .uwcombobox-control .uwcombobox-contenttext {
 	font-size:90%;
 	width:95%;
 	height:80%;
 	margin:1% auto;
 }
 
-.uwcombobox-list .uwcombobox-list-input {
+.uwcomboboxdefault.uwcombobox-list .uwcombobox-list-input {
 	border-top:1px solid #ccc;
 	border-bottom:1px solid #ccc;
 }
 
-.uwcombobox-list .uwcombobox-list-input input {
+.uwcomboboxdefault.uwcombobox-list .uwcombobox-list-input input {
 	font-size:90%;
 	width:100%;
 	border:0;
@@ -55,28 +55,28 @@
 	padding:1px 2px;
 }
 
-.uwcombobox-list .uwcombobox-list-input .reload-button {
+.uwcomboboxdefault.uwcombobox-list .uwcombobox-list-input .reload-button {
 	background: url('./refresh_15x15.png') no-repeat center;
 }
 
-.uwcombobox-list .uwcombobox-list-container ul,
-.uwcombobox-list .uwcombobox-list-container ul li {
+.uwcomboboxdefault.uwcombobox-list .uwcombobox-list-container ul,
+.uwcomboboxdefault.uwcombobox-list .uwcombobox-list-container ul li {
 	display:block;
 	list-style:none;
 	margin:0;
 	padding:0;
 }
 
-.uwcombobox-list .uwcombobox-list-container ul li {
+.uwcomboboxdefault.uwcombobox-list .uwcombobox-list-container ul li {
 	cursor:pointer;
 	margin:2px;
 	padding:2px;
 }
 
-.uwcombobox-list .uwcombobox-list-container ul li:hover {
+.uwcomboboxdefault.uwcombobox-list .uwcombobox-list-container ul li:hover {
 	background:#eee;
 }
 
-.uwcombobox-list .uwcombobox-list-container ul li.visited {
+.uwcomboboxdefault.uwcombobox-list .uwcombobox-list-container ul li.visited {
 	background:#ddd;
 }

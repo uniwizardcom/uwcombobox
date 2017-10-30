@@ -54,34 +54,33 @@ function UWComboboxView(directParent) {
 			
 			createBackground: function() {
 				privateObj.background = document.createElement('div');
-				privateObj.background.style.top = '0px';
-				privateObj.background.style.left = '0px';
-				privateObj.background.style.position = 'fixed';
-				privateObj.background.style.zIndex = '1000';
-				privateObj.background.className = 'background';
+				privateObj.background.className = 'uwcomboboxmedia background';
 				document.body.appendChild(privateObj.background);
 				
-				this.resizeBackground();
 				var tthis = this;
 				privateObj.background.onclick = function(){
 					this.parentNode.removeChild(this);
 					tthis.closeListView();
 				}
 				this.refreshView();
-				
-				var offset = privateObj.divContainer.getBoundingClientRect();
-				privateObj.listView.style.left = (offset.left)+'px';
-				privateObj.listView.style.top = (offset.top + offset.height)+'px';
-				
+				this.resizeBackground();
 			},
 			resizeBackground: function() {
-				if(privateObj.background) {
-					var
-						width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-						height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-					;
-					privateObj.background.style.width = width+'px';
-					privateObj.background.style.height = height+'px';
+				var
+					width = parseFloat(window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth),
+					height = parseFloat(window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight),
+					rw = width / screen.width,
+					rh = height / screen.height
+				;
+				
+				if(privateObj.listView) {
+					document.getElementById('aaaaa').innerHTML = '['+rw+']';
+					document.getElementById('bbbbb').innerHTML = '['+rh+']';
+					privateObj.listView.style.fontSize = (rw*300)+'%';
+				}
+				
+				if(privateObj.listContainer) {
+					privateObj.listContainer.style.maxHeight = (rh*500)+'px';
 				}
 			},
 			close: function() {
@@ -155,6 +154,7 @@ function UWComboboxView(directParent) {
 				
 				this.domInput = inp;
 				privateObj.divContainer = document.createElement('div');
+				privateObj.divContainer.className = 'uwcomboboxmedia';
 				privateObj.divContainer.style.width = width+'px';
 				privateObj.divContainer.style.height = height+'px';
 				privateObj.divContainer.style.overflow = 'hidden';
@@ -182,11 +182,7 @@ function UWComboboxView(directParent) {
 				var tthis = this;
 				
 				privateObj.listView = document.createElement('div');
-				privateObj.listView.className = 'uwcombobox-list';
-				privateObj.listView.style.top = '0px';
-				privateObj.listView.style.left = '0px';
-				privateObj.listView.style.position = 'fixed';
-				privateObj.listView.style.zIndex = '1001';
+				privateObj.listView.className = 'uwcomboboxmedia uwcombobox-list';
 				
 				var input = document.createElement('input');
 				input.setAttribute('type','text');
@@ -243,7 +239,6 @@ function UWComboboxView(directParent) {
 				privateObj.listContainer = document.createElement('div');
 				privateObj.listContainer.className = 'uwcombobox-list-container';
 				privateObj.listContainer.style.width = '100%';
-				privateObj.listContainer.style.maxHeight = '200px';
 				privateObj.listContainer.style.overflowX = 'hidden';
 				privateObj.listContainer.style.overflowY = 'auto';
 				
@@ -291,8 +286,7 @@ function UWComboboxView(directParent) {
 							directParent.value = this.record[tthis.confValues.keyName];
 							directParent.recordValue = this.record;
 							privateObj.viewContentText.innerHTML = this.innerHTML;
-							tthis.domInput.value = tthis.value;
-							this.className = 'visited';
+							tthis.domInput.value = directParent.value;
 							tthis.close();
 							setTimeout(function(){
 								if(typeof tthis.onchange == 'function') {
@@ -305,6 +299,7 @@ function UWComboboxView(directParent) {
 								}
 							}, 100);
 						};
+						
 						if(this.domInput.value == this.dataCollection[i][this.confValues.keyName]) {
 							item.className = 'visited';
 						}
