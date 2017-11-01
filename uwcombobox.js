@@ -100,7 +100,7 @@ function UWCombobox(confObj) {
 			};
 			
 			/** method to force load data from source */
-			publicObj.load = function(onstart) {
+			publicObj.load = function(onstart, buttonDom) {
 				if(!publicObj.url) {
 					return;
 				}
@@ -109,6 +109,11 @@ function UWCombobox(confObj) {
 					privateObj.view.ajax.abort();
 				}
 				
+				var currentClassName;
+				if(buttonDom) {
+					currentClassName = buttonDom.className;
+					buttonDom.className = currentClassName+' loading';
+				}
 				privateObj.view.ajax = UWAjax({
 					url: publicObj.url,
 					method: 'post',
@@ -125,6 +130,9 @@ function UWCombobox(confObj) {
 					},
 					oncompleted: function(){
 						privateObj.view.ajax = null;
+						if(buttonDom) {
+							buttonDom.className = currentClassName;
+						}
 					}
 				});
 				privateObj.view.ajax.start();

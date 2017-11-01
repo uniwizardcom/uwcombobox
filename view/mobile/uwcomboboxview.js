@@ -221,7 +221,7 @@ function UWComboboxView(directParent) {
 				buttonDom.className = 'reload-button';
 				buttonDom.onclick = function(){
 					if(!tthis.ajax) {
-						tthis.load();
+						tthis.load(false, buttonDom);
 					}
 				};
 				
@@ -229,7 +229,7 @@ function UWComboboxView(directParent) {
 					tm = setTimeout(function(){
 						tm = 0;
 						input.onchange();
-						buttonDom.onclick();
+						buttonDom.onclick(false, buttonDom);
 					}, 1000);
 				}
 				input.onkeyup = function(){

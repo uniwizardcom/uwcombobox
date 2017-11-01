@@ -82,6 +82,10 @@
 	background: url('./refresh_15x15.png') no-repeat center;
 }
 
+.uwcomboboxmedia.uwcombobox-list .uwcombobox-list-input .reload-button.loading {
+	background: url('./loading-icon_15x15.gif') no-repeat center;
+}
+
 .uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container {
 	max-height:300px;
 }
