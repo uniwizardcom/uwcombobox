@@ -72,11 +72,29 @@ function UWComboboxView(directParent) {
 				;
 				
 				if(privateObj.listView) {
-					privateObj.listView.style.fontSize = (rw*300)+'%';
+					privateObj.listView.style.fontSize = (rw*200)+'%';
 				}
 				
 				if(privateObj.listContainer) {
 					privateObj.listContainer.style.maxHeight = (rh*500)+'px';
+					
+					var liList = privateObj.listContainer.getElementsByTagName('li');
+					for(var i=0; i<liList.length; i++) {
+						if(typeof liList[i].uwdata == 'undefined') {
+							var pl = parseFloat(window.getComputedStyle(liList[i], null).getPropertyValue('padding-left')),
+								h = parseFloat(window.getComputedStyle(liList[i], null).getPropertyValue('height')),
+								plh = (pl < h) ? pl : h;
+							
+							liList[i].uwdata = {
+									'padding-left': (plh*rw)+'px',
+									'background-size': (plh*rw-20)+'px'
+							};
+							
+							liList[i].style.paddingLeft = liList[i].uwdata['padding-left'];
+							liList[i].style.backgroundSize = liList[i].uwdata['background-size'];
+						}
+					}
+					document.getElementById('aaaaa').innerHTML = '['+(plh*rw)+'px]';
 				}
 			},
 			close: function() {

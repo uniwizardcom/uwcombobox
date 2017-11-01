@@ -95,16 +95,16 @@
 }
 
 .uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul li {
-	background: url('./select_dot_20x20.png') no-repeat left center;
+	background: url('./select_dot_20x20.png') no-repeat 1% center;
 	cursor:pointer;
 	margin:2px;
-	padding:3px 3px 3px 23px;
+	padding:3px 3px 3px 30px;
 }
 
 .uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul li:hover {
-	background: url('./select_dot_20x20.png') no-repeat left center #eee;
+	background: url('./select_dot_20x20.png') no-repeat 1% center #eee;
 }
 
 .uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul li.visited {
-	background: url('./select_dot_center_20x20.png') no-repeat left center #ddd;
+	background: url('./select_dot_center_20x20.png') no-repeat 1% center #ddd;
 }
