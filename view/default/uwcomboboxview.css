@@ -1,5 +1,14 @@
 @CHARSET "UTF-8";
 
+.uwcomboboxdefault.background {
+	position:fixed;
+	z-index:1000;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+}
+
 .uwcomboboxdefault .uwcombobox-control,
 .uwcomboboxdefault .uwcombobox-buttons,
 .uwcomboboxdefault.uwcombobox-list {
@@ -20,6 +29,13 @@
 }
 
 .uwcomboboxdefault.uwcombobox-list {
+	position:fixed;
+	z-index:1001;
+	top:0;
+	left:0;
+	
+	max-width:200px;
+	
 	border-left:1px solid #ccc;
 	border-right:1px solid #ccc;
 	border-bottom:1px solid #ccc;

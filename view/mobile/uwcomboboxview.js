@@ -4,9 +4,6 @@
  * 
  * Combobox with boxed view dedicated for mobile devices and other with touched screen
  * 
- * TODO: Multi select, with:
- * - check for multiselect
- * - select list in other view
  * */
 
 function ObjectIsEmpty(obj) {
@@ -22,6 +19,7 @@ function UWComboboxView(directParent) {
 	var privateObj = {
 			viewContent: null,
 			viewContentText: null,
+			listInput: null,
 			listContainer: null,
 			buttonsContainer: null,
 			listView: null,
@@ -61,41 +59,6 @@ function UWComboboxView(directParent) {
 					tthis.closeListView();
 				}
 				this.refreshView();
-				this.resizeBackground();
-			},
-			resizeBackground: function() {
-				var
-					width = parseFloat(window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth),
-					height = parseFloat(window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight),
-					rw = width / screen.width,
-					rh = height / screen.height
-				;
-				
-				if(privateObj.listView) {
-					privateObj.listView.style.fontSize = (rw*200)+'%';
-				}
-				
-				if(privateObj.listContainer) {
-					privateObj.listContainer.style.maxHeight = (rh*500)+'px';
-					
-					var liList = privateObj.listContainer.getElementsByTagName('li');
-					for(var i=0; i<liList.length; i++) {
-						if(typeof liList[i].uwdata == 'undefined') {
-							var pl = parseFloat(window.getComputedStyle(liList[i], null).getPropertyValue('padding-left')),
-								h = parseFloat(window.getComputedStyle(liList[i], null).getPropertyValue('height')),
-								plh = (pl < h) ? pl : h;
-							
-							liList[i].uwdata = {
-									'padding-left': (plh*rw)+'px',
-									'background-size': (plh*rw-20)+'px'
-							};
-							
-							liList[i].style.paddingLeft = liList[i].uwdata['padding-left'];
-							liList[i].style.backgroundSize = liList[i].uwdata['background-size'];
-						}
-					}
-					document.getElementById('aaaaa').innerHTML = '['+(plh*rw)+'px]';
-				}
 			},
 			close: function() {
 				if(privateObj.background !== null) {
@@ -204,17 +167,17 @@ function UWComboboxView(directParent) {
 					tthis.filerValue = this.value;
 				};
 				
-				var inputContainer = document.createElement('div');
-				inputContainer.className = 'uwcombobox-list-input';
-				inputContainer.style.width = '100%';
-				inputContainer.style.overflow = 'hidden';
+				privateObj.listInput = document.createElement('div');
+				privateObj.listInput.className = 'uwcombobox-list-input';
+				privateObj.listInput.style.width = '100%';
+				privateObj.listInput.style.overflow = 'hidden';
 				
 				var inputContContainer = document.createElement('div');
 				inputContContainer.style.float = 'left';
 				inputContContainer.style.width = 'auto';
 				inputContContainer.style.overflow = 'hidden';
 				inputContContainer.appendChild(input);
-				inputContainer.appendChild(inputContContainer);
+				privateObj.listInput.appendChild(inputContContainer);
 
 				var tm = 0;
 				var buttonDom = document.createElement('div');
@@ -246,9 +209,9 @@ function UWComboboxView(directParent) {
 				var buttonContainer = document.createElement('div');
 				buttonContainer.style.float = 'right';
 				buttonContainer.appendChild(buttonDom);
-				inputContainer.appendChild(buttonContainer);
+				privateObj.listInput.appendChild(buttonContainer);
 				
-				privateObj.listView.appendChild(inputContainer);
+				privateObj.listView.appendChild(privateObj.listInput);
 				
 				privateObj.listContainer = document.createElement('div');
 				privateObj.listContainer.className = 'uwcombobox-list-container';
@@ -259,10 +222,11 @@ function UWComboboxView(directParent) {
 				privateObj.listView.appendChild(privateObj.listContainer);
 				document.body.appendChild(privateObj.listView);
 
-				var inputContainerWidth = UWCss(inputContainer).getWidthOutside();
+				var inputContainerWidth = UWCss(privateObj.listInput).getWidthOutside();
 				var h = UWCss(inputContContainer).getHeightOutside();
 				buttonDom.style.width = h+'px';
 				buttonDom.style.height = h+'px';
+				buttonDom.style.backgroundSize = (h/2)+'px';
 				
 				var buttonContainerWidth = UWCss(buttonContainer).getWidthOutside();
 				UWCss(inputContContainer).setWidthOutside(inputContainerWidth - buttonContainerWidth);
@@ -325,6 +289,30 @@ function UWComboboxView(directParent) {
 						directParent.value = this.domInput.value;
 						directParent.recordValue = this.dataCollection[i];
 					}
+				}
+				this.refreshValueOnViewAfter();
+			},
+			refreshValueOnViewAfter: function(){
+				if(privateObj.listContainer) {
+					var liList = privateObj.listContainer.getElementsByTagName('li');
+					for(var i=0; i<liList.length; i++) {
+						if(typeof liList[i].uwdata == 'undefined') {
+							liList[i].uwdata = {
+									'original': {
+										'padding-left': parseFloat(window.getComputedStyle(liList[i], null).getPropertyValue('padding-left')),
+										'height': parseFloat(window.getComputedStyle(liList[i], null).getPropertyValue('height'))
+								}
+							};
+						}
+						var plh = (liList[i].uwdata['original']['padding-left'] < liList[i].uwdata['original']['height'])
+							? liList[i].uwdata['original']['padding-left']
+							: liList[i].uwdata['original']['height']
+						;
+						
+						liList[i].style.paddingLeft = (plh* 1.8)+'px';
+						liList[i].style.backgroundSize = (plh* 1.2)+'px';
+					}
+					privateObj.listContainer.style.top = UWCss(privateObj.listInput).getHeightOutside()+'px';
 				}
 			},
 			closeListView: function() {

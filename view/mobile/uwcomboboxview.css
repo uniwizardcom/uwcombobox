@@ -15,11 +15,12 @@
 }
 
 .uwcomboboxmedia.uwcombobox-list {
-	position:absolute;
+	position:fixed;
 	z-index:1001;
-	top:100px;
-	left:100px;
-	right:100px;
+	top:10%;
+	left:10%;
+	right:10%;
+	bottom:10%;
 	
 	background:#f5f5f5;
 	border-top:none;
@@ -27,7 +28,7 @@
 	border-right:1px solid #ccc;
 	border-bottom:1px solid #ccc;
 	
-	font-size:16px;
+	font-size:80px;
 }
 
 .uwcomboboxmedia .uwcombobox-control,
@@ -87,7 +88,10 @@
 }
 
 .uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container {
-	max-height:300px;
+	position:absolute;
+	left:0;
+	right:0;
+	bottom:0;
 }
 
 .uwcomboboxmedia.uwcombobox-list .uwcombobox-list-container ul,

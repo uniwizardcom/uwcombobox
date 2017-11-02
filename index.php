@@ -50,6 +50,23 @@ $t = time();
 		<input id="select_3" type="text" value="key 6" />
 	</fieldset>
 	
+	<fieldset>
+		<legend>Mobile native combobox</legend>
+		<select name="sadffdg" style="width:120px;">
+			<option value="aaaa">hhhhhhh</option>
+			<option value="bbbb">oooo</option>
+			<option value="cccc">... is trying to improve accessibility ...</option>
+			<option value="dddd">hhhh</option>
+			<option value="eeeee">kkkk</option>
+			<option value="fffff">llll</option>
+			<option value="ggggg">xxxx</option>
+			<option value="hhhhh">cccc</option>
+			<option value="iiiii">vvvv</option>
+			<option value="jjjj">nnnn</option>
+			<option value="kkkkk">mmm</option>
+		</select>
+	</fieldset>
+	
 	<script>
 	var selectObj = UWCombobox({
 		url: './getdata.php',

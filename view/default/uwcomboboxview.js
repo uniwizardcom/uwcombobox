@@ -4,7 +4,6 @@
  * 
  * Default combobox - standard pull-out list like select HTML element
  * 
- * TODO: Multi select (with Ctrl button)
  * */
 
 function ObjectIsEmpty(obj) {
@@ -20,7 +19,10 @@ function UWComboboxView(directParent) {
 	var privateObj = {
 			viewContent: null,
 			viewContentText: null,
+			listInput: null,
 			listContainer: null,
+			reloadButtonDom: null,
+			inputContContainer: null,
 			buttonsContainer: null,
 			listView: null,
 			listItemsView: null,
@@ -50,14 +52,9 @@ function UWComboboxView(directParent) {
 			
 			createBackground: function() {
 				privateObj.background = document.createElement('div');
-				privateObj.background.style.top = '0px';
-				privateObj.background.style.left = '0px';
-				privateObj.background.style.position = 'fixed';
-				privateObj.background.style.zIndex = '1000';
 				privateObj.background.className = 'uwcomboboxdefault background';
 				document.body.appendChild(privateObj.background);
 				
-				this.resizeBackground();
 				var tthis = this;
 				privateObj.background.onclick = function(){
 					this.parentNode.removeChild(this);
@@ -69,16 +66,6 @@ function UWComboboxView(directParent) {
 				privateObj.listView.style.left = (offset.left)+'px';
 				privateObj.listView.style.top = (offset.top + offset.height)+'px';
 				
-			},
-			resizeBackground: function() {
-				if(privateObj.background) {
-					var
-						width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-						height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-					;
-					privateObj.background.style.width = width+'px';
-					privateObj.background.style.height = height+'px';
-				}
 			},
 			close: function() {
 				if(privateObj.background !== null) {
@@ -180,10 +167,6 @@ function UWComboboxView(directParent) {
 				
 				privateObj.listView = document.createElement('div');
 				privateObj.listView.className = 'uwcomboboxdefault uwcombobox-list';
-				privateObj.listView.style.top = '0px';
-				privateObj.listView.style.left = '0px';
-				privateObj.listView.style.position = 'fixed';
-				privateObj.listView.style.zIndex = '1001';
 				
 				var input = document.createElement('input');
 				input.setAttribute('type','text');
@@ -191,24 +174,24 @@ function UWComboboxView(directParent) {
 					tthis.filerValue = this.value;
 				};
 				
-				var inputContainer = document.createElement('div');
-				inputContainer.className = 'uwcombobox-list-input';
-				inputContainer.style.width = '100%';
-				inputContainer.style.overflow = 'hidden';
+				privateObj.listInput = document.createElement('div');
+				privateObj.listInput.className = 'uwcombobox-list-input';
+				privateObj.listInput.style.width = '100%';
+				privateObj.listInput.style.overflow = 'hidden';
 				
-				var inputContContainer = document.createElement('div');
-				inputContContainer.style.float = 'left';
-				inputContContainer.style.width = 'auto';
-				inputContContainer.style.overflow = 'hidden';
-				inputContContainer.appendChild(input);
-				inputContainer.appendChild(inputContContainer);
+				privateObj.inputContContainer = document.createElement('div');
+				privateObj.inputContContainer.style.float = 'left';
+				privateObj.inputContContainer.style.width = 'auto';
+				privateObj.inputContContainer.style.overflow = 'hidden';
+				privateObj.inputContContainer.appendChild(input);
+				privateObj.listInput.appendChild(privateObj.inputContContainer);
 
 				var tm = 0;
-				var buttonDom = document.createElement('div');
-				buttonDom.className = 'reload-button';
-				buttonDom.onclick = function(){
+				privateObj.reloadButtonDom = document.createElement('div');
+				privateObj.reloadButtonDom.className = 'reload-button';
+				privateObj.reloadButtonDom.onclick = function(){
 					if(!tthis.ajax) {
-						tthis.load(false, buttonDom);
+						tthis.load(false, privateObj.reloadButtonDom);
 					}
 				};
 				
@@ -216,7 +199,7 @@ function UWComboboxView(directParent) {
 					tm = setTimeout(function(){
 						tm = 0;
 						input.onchange();
-						buttonDom.onclick(false, buttonDom);
+						privateObj.reloadButtonDom.onclick(false, privateObj.reloadButtonDom);
 					}, 1000);
 				}
 				input.onkeyup = function(){
@@ -232,10 +215,10 @@ function UWComboboxView(directParent) {
 				
 				var buttonContainer = document.createElement('div');
 				buttonContainer.style.float = 'right';
-				buttonContainer.appendChild(buttonDom);
-				inputContainer.appendChild(buttonContainer);
+				buttonContainer.appendChild(privateObj.reloadButtonDom);
+				privateObj.listInput.appendChild(buttonContainer);
 				
-				privateObj.listView.appendChild(inputContainer);
+				privateObj.listView.appendChild(privateObj.listInput);
 				
 				privateObj.listContainer = document.createElement('div');
 				privateObj.listContainer.className = 'uwcombobox-list-container';
@@ -247,13 +230,13 @@ function UWComboboxView(directParent) {
 				privateObj.listView.appendChild(privateObj.listContainer);
 				document.body.appendChild(privateObj.listView);
 
-				var inputContainerWidth = UWCss(inputContainer).getWidthOutside();
-				var h = UWCss(inputContContainer).getHeightOutside();
-				buttonDom.style.width = h+'px';
-				buttonDom.style.height = h+'px';
+				var inputContainerWidth = UWCss(privateObj.listInput).getWidthOutside();
+				var h = UWCss(privateObj.inputContContainer).getHeightOutside();
+				privateObj.reloadButtonDom.style.width = h+'px';
+				privateObj.reloadButtonDom.style.height = h+'px';
 				
 				var buttonContainerWidth = UWCss(buttonContainer).getWidthOutside();
-				UWCss(inputContContainer).setWidthOutside(inputContainerWidth - buttonContainerWidth);
+				UWCss(privateObj.inputContContainer).setWidthOutside(inputContainerWidth - buttonContainerWidth);
 				buttonContainer.style.height = h+'px';
 				
 				this.refreshListView();
@@ -312,6 +295,17 @@ function UWComboboxView(directParent) {
 						directParent.value = this.domInput.value;
 						directParent.recordValue = this.dataCollection[i];
 					}
+				}
+				this.refreshValueOnViewAfter();
+			},
+			refreshValueOnViewAfter: function(){
+				if(privateObj.viewContent && privateObj.listView) {
+					var w = UWCss(privateObj.viewContent.parentNode).getWidthOutside();
+					privateObj.listView.style.minWidth = w+'px';
+					
+					var inputContainerWidth = UWCss(privateObj.listInput).getWidthOutside();
+					var buttonContainerWidth = UWCss(privateObj.reloadButtonDom.parentNode).getWidthOutside();
+					UWCss(privateObj.inputContContainer).setWidthOutside(inputContainerWidth - buttonContainerWidth);
 				}
 			},
 			closeListView: function() {
