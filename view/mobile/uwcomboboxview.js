@@ -32,7 +32,8 @@ function UWComboboxView(directParent) {
 					'className': ' arrow-down',
 					'width': '20px'
 				}
-			}
+			},
+			buttons: {}
 		};
 	
 	var publicObj = {
@@ -40,12 +41,18 @@ function UWComboboxView(directParent) {
 			load: null,
 			dataCollection: {},
 			domInput: null,
-			
-			setButtons: function(buttonsList) {
+
+			setDefaultButtons: function(buttonsList) {
 				for(var buttonKey in buttonsList) {
 					privateObj.buttonsDefault[buttonKey] = buttonsList[buttonKey];
 				}
-				this.prepareButtons();
+				this.prepareDefaultButtons();
+			},
+			
+			setButtons: function(buttonsList) {
+				for(var buttonKey in buttonsList) {
+					privateObj.buttons[buttonKey] = buttonsList[buttonKey];
+				}
 			},
 			
 			createBackground: function() {
@@ -67,7 +74,7 @@ function UWComboboxView(directParent) {
 				}
 			},
 			
-			prepareButtons: function() {
+			prepareDefaultButtons: function() {
 				var tthis = this;
 				if(typeof privateObj.buttonsDefault == 'object' && !ObjectIsEmpty(privateObj.buttonsDefault)) {
 					privateObj.buttonsContainer = document.createElement('div');
@@ -125,6 +132,28 @@ function UWComboboxView(directParent) {
 				}
 			},
 			
+			prepareButtons: function(container) {
+				var h = UWCss(container).getHeightOutside();
+				if(typeof privateObj.buttons == 'object' && !ObjectIsEmpty(privateObj.buttons)) {
+					for(var buttonKey in privateObj.buttons) {
+						var button = privateObj.buttons[buttonKey],
+						buttonDom = document.createElement('div');
+						buttonDom.style.float = 'left';
+						buttonDom.style.height = h+'px';
+						buttonDom.innerHTML = button.title;
+						if(typeof button.click == 'function') {
+							buttonDom.onclick = button.click;
+							buttonDom.sender = buttonDom;
+							buttonDom.uwcombobox = directParent;
+						}
+						if(typeof button.className != 'undefined') {
+							buttonDom.className = button.className;
+						}
+						container.appendChild(buttonDom);
+					}
+				}
+			},
+			
 			prepareContainer: function(inp) {
 				var width = UWCss(inp).getWidthOutside(),
 					height = UWCss(inp).getHeightOutside();
@@ -154,6 +183,8 @@ function UWComboboxView(directParent) {
 				privateObj.viewContent.onclick = function(){
 					tthis.createBackground();
 				};
+				
+				this.prepareDefaultButtons();
 			},
 			refreshView: function() {
 				var tthis = this;
@@ -182,6 +213,7 @@ function UWComboboxView(directParent) {
 				var tm = 0;
 				var buttonDom = document.createElement('div');
 				buttonDom.className = 'reload-button';
+				buttonDom.style.float = 'left';
 				buttonDom.onclick = function(){
 					if(!tthis.ajax) {
 						tthis.load(false, buttonDom);
@@ -227,6 +259,8 @@ function UWComboboxView(directParent) {
 				buttonDom.style.width = h+'px';
 				buttonDom.style.height = h+'px';
 				buttonDom.style.backgroundSize = (h/2)+'px';
+
+				this.prepareButtons(buttonContainer);
 				
 				var buttonContainerWidth = UWCss(buttonContainer).getWidthOutside();
 				UWCss(inputContContainer).setWidthOutside(inputContainerWidth - buttonContainerWidth);
