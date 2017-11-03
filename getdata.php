@@ -1,6 +1,6 @@
 <?php
 
-$data = [
+$dataList = [
 		['key' => 'key 1', 'value' => 'Value 1'],
 		['key' => 'key 2', 'value' => 'Value 2'],
 		['key' => 'key 3', 'value' => '... is trying to improve accessibility ...'],
@@ -13,7 +13,23 @@ $data = [
 		['key' => 'key 0', 'value' => 'Value 0']
 ];
 
-sleep(3);
+//sleep(3);
+
+$postData = json_decode(file_get_contents('php://input'));
+//$filter = strtolower(trim($_POST['filter']));
+$filter = trim($postData->filter);
+
+if(!empty($filter)) {
+	foreach($dataList as $record) {
+		if(strpos(strtolower($record['value']), $filter) !== false) {
+			$data[] = $record;
+		}
+	}
+	
+}
+else {
+	$data = $dataList;
+}
 
 if(!empty($_SERVER['CONTENT_TYPE'])) {
 	header('Content-Type: '. $_SERVER['CONTENT_TYPE']);
