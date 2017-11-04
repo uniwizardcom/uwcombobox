@@ -6,15 +6,6 @@
  * 
  * */
 
-function ObjectIsEmpty(obj) {
-	for(var prop in obj) {
-		if(obj.hasOwnProperty(prop)) {
-			return false;
-		}
-	}
-	return true;
-}
-
 function UWComboboxView(directParent) {
 	var privateObj = {
 			viewContent: null,

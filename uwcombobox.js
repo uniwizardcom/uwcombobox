@@ -19,6 +19,15 @@
  * @returns
  */
 
+function ObjectIsEmpty(obj) {
+	for(var prop in obj) {
+		if(obj.hasOwnProperty(prop)) {
+			return false;
+		}
+	}
+	return true;
+}
+
 function UWLoadScript(type, attributes, callback) {
 		var s = document.createElement(type);
 		for(var a in attributes) {
@@ -66,11 +75,10 @@ function UWCombobox(confObj) {
 			/** method to force load data from source */
 			load: null,
 			
-			setRecord: function(){
-				/**
-				 * Throwing exception before loading plugin.
-				 */
-				throw 'Plugin must be loaded before using';
+			setRecordData: {},
+			setRecord: function(val, keyName){
+				this.setRecordData.val = val;
+				this.setRecordData.keyName = keyName;
 			},
 			
 			url: (typeof confObj.url != 'undefined') ? confObj.url : null,
@@ -163,12 +171,12 @@ function UWCombobox(confObj) {
 				privateObj.view.close();
 			};
 			
-			publicObj.setRecord = function(val, keyName, keyValue) {
-				console.log(privateObj.view);
-				privateObj.view.setRecord(val,
-						((Object.prototype.toString.call(keyName) === '[object String]') ? keyName.trim() : '').length ? keyName : this.keyName
+			if(!ObjectIsEmpty(publicObj.setRecordData)) {
+				privateObj.view.setRecord(
+						publicObj.setRecordData.val,
+						publicObj.setRecordData.keyName
 					);
-			};
+			}
 			
 			window.addEventListener('resize', function(event){
 				privateObj.view.resizeBackground();

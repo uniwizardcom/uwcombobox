@@ -68,11 +68,12 @@ $t = time();
 	</fieldset>
 	
 	<script>
-	/*var selectObj = UWCombobox({
+	var selectObj = UWCombobox({
 		url: './getdata.php',
 		input: document.getElementById('first_select'),
 		keyName: 'key',
 		keyValue: 'value',
+		
 		buttons: {
 			'abc': {
 				'title': 'Def'
@@ -81,7 +82,7 @@ $t = time();
 		onchange: function(){
 			window.alert(this.value);
 		}
-	});*/
+	});
 	var selectObj2 = UWCombobox({
 		url: './getdata.php',
 		input: document.getElementById('second_select'),
@@ -111,9 +112,7 @@ $t = time();
 			//window.alert(this.value);
 		}
 	});
-	setTimeout(function(){
-		selectObj2.setRecord(6, 'id');
-	}, 1000);
+	selectObj2.setRecord(6, 'id');
 	
 	var selectObj3 = UWCombobox({
 		url: './getdata.php',
@@ -130,7 +129,7 @@ $t = time();
 						selectObj2,						// External object
 						this.sender,					// This UWButton object
 						this.uwcombobox,				// Internal object
-						selectObj === this.uwcombobox,	// Compare external with internal objects
+//						selectObj === this.uwcombobox,	// Compare external with internal objects
 						selectObj2 === this.uwcombobox	// Compare external with internal objects
 					]);
 					
@@ -145,9 +144,7 @@ $t = time();
 			//window.alert(this.value);
 		}
 	});
-	setTimeout(function(){
-		selectObj3.setRecord('key 7');
-	}, 2000);
+	selectObj3.setRecord('key 7');
 	
 	</script>
 </html>
