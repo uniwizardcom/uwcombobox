@@ -83,6 +83,7 @@ $t = time();
 			window.alert(this.value);
 		}
 	});
+
 	var selectObj2 = UWCombobox({
 		url: './getdata.php',
 		input: document.getElementById('second_select'),

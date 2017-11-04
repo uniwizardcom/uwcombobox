@@ -78,7 +78,7 @@ function UWCombobox(confObj) {
 			setRecordData: {},
 			setRecord: function(val, keyName){
 				this.setRecordData.val = val;
-				this.setRecordData.keyName = keyName;
+				this.setRecordData.keyName = ((Object.prototype.toString.call(keyName) === '[object String]') ? keyName.trim() : '').length ? keyName.trim() : this.keyName;
 			},
 			
 			url: (typeof confObj.url != 'undefined') ? confObj.url : null,
@@ -115,7 +115,7 @@ function UWCombobox(confObj) {
 			};
 			
 			/** method to force load data from source */
-			publicObj.load = function(onstart, buttonDom) {
+			publicObj.load = function(onstart, buttonDom, afterSuccess) {
 				if(!publicObj.url) {
 					return;
 				}
@@ -142,8 +142,11 @@ function UWCombobox(confObj) {
 						if(onstart === true) {
 							privateObj.view.refreshValueOnView();
 						}
+						if(typeof afterSuccess == 'function') {
+							afterSuccess();
+						}
 					},
-					oncompleted: function(){
+					oncompleted: function(body, status){
 						privateObj.view.ajax = null;
 						if(buttonDom) {
 							buttonDom.className = currentClassName;
@@ -156,7 +159,14 @@ function UWCombobox(confObj) {
 			privateObj.view.load = publicObj.load;
 			
 			/** loading data on start */
-			publicObj.load(true);
+			publicObj.load(true, null, function(){
+				if(!ObjectIsEmpty(publicObj.setRecordData)) {
+					privateObj.view.setRecord(
+							publicObj.setRecordData.val,
+							publicObj.setRecordData.keyName
+						);
+				}
+			});
 			
 			/** method to programically open list */
 			publicObj.open = function() {
@@ -170,13 +180,6 @@ function UWCombobox(confObj) {
 			publicObj.close = function() {
 				privateObj.view.close();
 			};
-			
-			if(!ObjectIsEmpty(publicObj.setRecordData)) {
-				privateObj.view.setRecord(
-						publicObj.setRecordData.val,
-						publicObj.setRecordData.keyName
-					);
-			}
 			
 			window.addEventListener('resize', function(event){
 				privateObj.view.resizeBackground();
