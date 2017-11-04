@@ -66,6 +66,13 @@ function UWCombobox(confObj) {
 			/** method to force load data from source */
 			load: null,
 			
+			setRecord: function(){
+				/**
+				 * Throwing exception before loading plugin.
+				 */
+				throw 'Plugin must be loaded before using';
+			},
+			
 			url: (typeof confObj.url != 'undefined') ? confObj.url : null,
 			
 			viewName: ((Object.prototype.toString.call(confObj.view) === '[object String]') ? confObj.view.trim() : '').length ? confObj.view.trim() : 'default'
@@ -154,6 +161,13 @@ function UWCombobox(confObj) {
 			/** method to programically close list */
 			publicObj.close = function() {
 				privateObj.view.close();
+			};
+			
+			publicObj.setRecord = function(val, keyName, keyValue) {
+				console.log(privateObj.view);
+				privateObj.view.setRecord(val,
+						((Object.prototype.toString.call(keyName) === '[object String]') ? keyName.trim() : '').length ? keyName : this.keyName
+					);
 			};
 			
 			window.addEventListener('resize', function(event){

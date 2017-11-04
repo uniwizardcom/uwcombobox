@@ -317,13 +317,11 @@ function UWComboboxView(directParent) {
 						}
 						privateObj.listItemsView.appendChild(item);
 					}
-					
-					if(this.domInput.value == this.dataCollection[i][this.confValues.keyName]) {
-						privateObj.viewContentText.innerHTML = this.dataCollection[i][this.confValues.keyValue];
-						directParent.value = this.domInput.value;
-						directParent.recordValue = this.dataCollection[i];
-					}
 				}
+				this.setRecord(
+						this.domInput.value,
+						this.confValues.keyName
+					);
 				this.refreshValueOnViewAfter();
 			},
 			refreshValueOnViewAfter: function(){
@@ -351,6 +349,16 @@ function UWComboboxView(directParent) {
 			},
 			closeListView: function() {
 				privateObj.listView.parentNode.removeChild(privateObj.listView);
+			},
+			setRecord: function(val, keyName) {
+				for(var i=0; i<this.dataCollection.length; i++) {
+					if(val == this.dataCollection[i][keyName]) {
+						privateObj.viewContentText.innerHTML = this.dataCollection[i][this.confValues.keyValue];
+						directParent.value = val;
+						directParent.recordValue = this.dataCollection[i];
+						this.domInput.value = this.dataCollection[i][this.confValues.keyName];
+					}
+				}
 			}
 		};
 	

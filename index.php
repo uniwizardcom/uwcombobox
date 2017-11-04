@@ -68,7 +68,7 @@ $t = time();
 	</fieldset>
 	
 	<script>
-	var selectObj = UWCombobox({
+	/*var selectObj = UWCombobox({
 		url: './getdata.php',
 		input: document.getElementById('first_select'),
 		keyName: 'key',
@@ -81,7 +81,7 @@ $t = time();
 		onchange: function(){
 			window.alert(this.value);
 		}
-	});
+	});*/
 	var selectObj2 = UWCombobox({
 		url: './getdata.php',
 		input: document.getElementById('second_select'),
@@ -111,6 +111,10 @@ $t = time();
 			//window.alert(this.value);
 		}
 	});
+	setTimeout(function(){
+		selectObj2.setRecord(6, 'id');
+	}, 1000);
+	
 	var selectObj3 = UWCombobox({
 		url: './getdata.php',
 		input: document.getElementById('select_3'),
@@ -141,6 +145,9 @@ $t = time();
 			//window.alert(this.value);
 		}
 	});
+	setTimeout(function(){
+		selectObj3.setRecord('key 7');
+	}, 2000);
 	
 	</script>
 </html>
