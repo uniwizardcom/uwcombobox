@@ -186,7 +186,7 @@ function UWComboboxView(directParent) {
 				var input = document.createElement('input');
 				input.setAttribute('type','text');
 				input.onchange = function(){
-					tthis.filerValue = this.value;
+					tthis.filterValue = this.value;
 				};
 				
 				privateObj.listInput = document.createElement('div');

@@ -73,7 +73,19 @@ $t = time();
 		input: document.getElementById('first_select'),
 		keyName: 'key',
 		keyValue: 'value',
-		
+		data: {
+			'q_word': [],
+			'page_num': 1,
+			'per_page': 10,
+			'search_field': ['name'],
+			'and_or': 'AND',
+			'order_by': [['name','ASC']],
+			'db_table': 'units',
+			'use': '',
+			'data_deep_level': 0,
+			'use_as_simply': false,
+			'extra_params': ''
+		},
 		buttons: {
 			'abc': {
 				'title': 'Def'
@@ -146,6 +158,5 @@ $t = time();
 		}
 	});
 	selectObj3.setRecord('key 7');
-	
 	</script>
 </html>

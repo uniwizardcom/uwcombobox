@@ -64,7 +64,7 @@ function UWCombobox(confObj) {
 			recordValue: null,
 			
 			/** putting value for filter results */
-			filerValue: null,
+			filterValue: null,
 			
 			/** key (column) name for value from data record */
 			keyName: (typeof confObj.keyName != 'undefined') ? confObj.keyName : null,
@@ -83,9 +83,11 @@ function UWCombobox(confObj) {
 			
 			url: (typeof confObj.url != 'undefined') ? confObj.url : null,
 			
-			viewName: ((Object.prototype.toString.call(confObj.view) === '[object String]') ? confObj.view.trim() : '').length ? confObj.view.trim() : 'default'
+			viewName: ((Object.prototype.toString.call(confObj.view) === '[object String]') ? confObj.view.trim() : '').length ? confObj.view.trim() : 'default',
+			
+			data: (Object.prototype.toString.call(confObj.data) === '[object Object]') ? confObj.data : {}
 	};
-	
+
 	if(typeof confObj.onchange == 'function') {
 		publicObj.onchange = confObj.onchange;
 	}
@@ -129,13 +131,15 @@ function UWCombobox(confObj) {
 					currentClassName = buttonDom.className;
 					buttonDom.className = currentClassName+' loading';
 				}
+				
+				publicObj.data.filter = this.filterValue;
+				
 				privateObj.view.ajax = UWAjax({
 					url: publicObj.url,
 					method: 'post',
 					contentType: 'json',
-					data: {
-						'filter': this.filerValue
-					},
+					//contentType: 'form',
+					data: publicObj.data,
 					onsuccess: function(data){
 						privateObj.view.dataCollection = JSON.parse(data);
 						privateObj.view.refreshListView();

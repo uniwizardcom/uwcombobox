@@ -21,6 +21,12 @@
  * 	onerror(responseBody, status);
  * 	onabort();
  */
+
+function makeParams(data) {
+	// TODO: Implement computing for form data
+    return data;
+}
+
 function UWAjax(confObj) {
 	
 	/**
@@ -95,7 +101,7 @@ function UWAjax(confObj) {
 					data = publicObj.data;
 				}
 				xmlhttp.send(
-						(publicObj.contentType != privateObj.contentTypes['default']) ? JSON.stringify(data) : data
+						(publicObj.contentType == privateObj.contentTypes['json']) ? JSON.stringify(data) : makeParams(data)
 					);
 			},
 			

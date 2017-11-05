@@ -31,11 +31,20 @@ else {
 	$data = $dataList;
 }
 
-if(!empty($_SERVER['CONTENT_TYPE'])) {
+$data[] = [
+		'post' => $_POST,
+		'get' => $_GET,
+		'request' => $_REQUEST
+];
+
+/*if(!empty($_SERVER['CONTENT_TYPE'])) {
 	header('Content-Type: '. $_SERVER['CONTENT_TYPE']);
 	if($_SERVER['CONTENT_TYPE'] == 'application/json') {
 		$data = json_encode($data);
 	}
-}
+}*/
+
+header('Content-Type: application/json');
+$data = json_encode($data);
 
 echo $data;
