@@ -139,7 +139,7 @@ function UWCombobox(confObj) {
 					method: 'post',
 					//contentType: 'json',
 					contentType: 'form',
-					data: publicObj.data
+					data: publicObj.data,
 					onsuccess: function(data){
 						privateObj.view.dataCollection = JSON.parse(data);
 						privateObj.view.refreshListView();
