@@ -15,9 +15,15 @@ $dataList = [
 
 //sleep(3);
 
-$postData = json_decode(file_get_contents('php://input'));
-//$filter = strtolower(trim($_POST['filter']));
+function getPayloadData() {
+	return file_get_contents('php://input');
+}
+
+/*
+$postData = json_decode(getPayloadData());
 $filter = trim($postData->filter);
+*/
+$filter = strtolower(trim($_POST['filter']));
 
 if(!empty($filter)) {
 	foreach($dataList as $record) {
@@ -30,12 +36,6 @@ if(!empty($filter)) {
 else {
 	$data = $dataList;
 }
-
-$data[] = [
-		'post' => $_POST,
-		'get' => $_GET,
-		'request' => $_REQUEST
-];
 
 /*if(!empty($_SERVER['CONTENT_TYPE'])) {
 	header('Content-Type: '. $_SERVER['CONTENT_TYPE']);

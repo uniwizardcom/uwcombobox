@@ -22,11 +22,6 @@
  * 	onabort();
  */
 
-function makeParams(data) {
-	// TODO: Implement computing for form data
-    return data;
-}
-
 function UWAjax(confObj) {
 	
 	/**
@@ -101,7 +96,7 @@ function UWAjax(confObj) {
 					data = publicObj.data;
 				}
 				xmlhttp.send(
-						(publicObj.contentType == privateObj.contentTypes['json']) ? JSON.stringify(data) : makeParams(data)
+						(publicObj.contentType == privateObj.contentTypes['json']) ? JSON.stringify(data) : this.toFormDataArray(data)
 					);
 			},
 			
@@ -118,6 +113,46 @@ function UWAjax(confObj) {
 				if(typeof confObj.onabort == 'function') {
 					confObj.onabort();
 				}
+			},
+			
+			toFormDataArray: function(data) {
+				var result = [];
+				
+				function objectToFormDataArray(key, obj, sumKey) {
+					var type = Object.prototype.toString.call(obj[key]);
+					var res;
+
+					if(type === '[object Array]') {
+						var i = 0;
+						for(i=0; i<obj[key].length; i++) {
+							objectToFormDataArray(i, obj[key], sumKey+'[]');
+						}
+						if(!i) {
+							objectToFormDataArray(i, '', sumKey+'[]');
+						}
+					}
+					else if(type === '[object Object]') {
+						var l = 0;
+						for(var i in obj[key]) {
+							l++;
+							objectToFormDataArray(i, obj[key], sumKey+'['+i+']');
+						}
+						if(!l) {
+							objectToFormDataArray(l, '', sumKey);
+						}
+					}
+					else {
+						var p = (sumKey !== null) ? new String(sumKey) : '';
+						var v = ((typeof obj[key] != 'undefined') && (obj[key] !== null)) ? new String(obj[key]) : '';
+						result.push(p+'='+v);
+					}
+				}
+				
+				for(var prop in data) {
+					objectToFormDataArray(prop, data, prop);
+				}
+				
+				return result.join('&');
 			}
 	};
 	
