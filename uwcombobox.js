@@ -139,27 +139,7 @@ function UWCombobox(confObj) {
 					method: 'post',
 					//contentType: 'json',
 					contentType: 'form',
-					//data: publicObj.data,
-					data: {
-						q_word: ['qwordv'],
-						page_num: 1,
-						per_page: 10,
-						//search_field[]: 'name',
-						search_field: ['name'],
-						and_or: 'AND',
-						//order_by[0][]: 'name',
-						//order_by[0][]: 'ASC',
-						order_by: {
-							'0': [
-								'name',
-								'ASC'
-							]
-						},
-						db_table: 'countries',
-						use: '',
-						data_deep_level: 0,
-						use_as_simply: false
-					},
+					data: publicObj.data
 					onsuccess: function(data){
 						privateObj.view.dataCollection = JSON.parse(data);
 						privateObj.view.refreshListView();
