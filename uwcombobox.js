@@ -28,6 +28,12 @@ function ObjectIsEmpty(obj) {
 	return true;
 }
 
+function scrollIntoView(el) {
+	setTimeout(function(){
+		el.scrollIntoView(true);
+	}, 100);
+}
+
 function UWLoadScript(type, attributes, callback) {
 		var s = document.createElement(type);
 		for(var a in attributes) {

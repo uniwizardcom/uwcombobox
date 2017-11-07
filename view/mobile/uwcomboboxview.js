@@ -5,7 +5,6 @@
  * Combobox with boxed view dedicated for mobile devices and other with touched screen
  * 
  * */
-
 function UWComboboxView(directParent) {
 	var privateObj = {
 			viewContent: null,
@@ -337,6 +336,9 @@ function UWComboboxView(directParent) {
 						
 						liList[i].style.paddingLeft = (plh* 1.8)+'px';
 						liList[i].style.backgroundSize = (plh* 1.2)+'px';
+						if(liList[i].className == 'visited') {
+							scrollIntoView(liList[i]);
+						}
 					}
 					privateObj.listContainer.style.top = UWCss(privateObj.listInput).getHeightOutside()+'px';
 				}

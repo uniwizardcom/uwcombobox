@@ -330,6 +330,14 @@ function UWComboboxView(directParent) {
 					var inputContainerWidth = UWCss(privateObj.listInput).getWidthOutside();
 					var buttonContainerWidth = UWCss(privateObj.reloadButtonDom.parentNode).getWidthOutside();
 					UWCss(privateObj.inputContContainer).setWidthOutside(inputContainerWidth - buttonContainerWidth);
+					
+
+					var liList = privateObj.listItemsView.getElementsByTagName('li');
+					for(var i=0; i<liList.length; i++) {
+						if(liList[i].className == 'visited') {
+							scrollIntoView(liList[i]);
+						}
+					}
 				}
 			},
 			closeListView: function() {
