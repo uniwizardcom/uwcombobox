@@ -275,6 +275,9 @@ function UWComboboxView(directParent) {
 				}
 			},
 			refreshValueOnView: function() {
+                if (Object.prototype.toString.call(this.dataCollection) !== '[object Array]') {
+                    return;
+                }
 				var tthis = this;
 				function resetItems() {
 					var liList = privateObj.listItemsView.getElementsByTagName('li');
@@ -333,10 +336,13 @@ function UWComboboxView(directParent) {
 				privateObj.listView.parentNode.removeChild(privateObj.listView);
 			},
 			setRecord: function(val, keyName) {
+                directParent.value = val;
+                if (Object.prototype.toString.call(this.dataCollection) !== '[object Array]') {
+                    return;
+                }
 				for(var i=0; i<this.dataCollection.length; i++) {
 					if(val == this.dataCollection[i][keyName]) {
 						privateObj.viewContentText.innerHTML = this.dataCollection[i][this.confValues.keyValue];
-						directParent.value = val;
 						directParent.recordValue = this.dataCollection[i];
 						this.domInput.value = this.dataCollection[i][this.confValues.keyName];
 					}

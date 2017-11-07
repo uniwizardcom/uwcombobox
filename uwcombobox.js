@@ -186,7 +186,9 @@ function UWCombobox(confObj) {
 			};
 			
 			window.addEventListener('resize', function(event){
-				privateObj.view.resizeBackground();
+				if(privateObj.view) {
+					privateObj.view.resizeBackground();
+                }
 			});
 		});
 	});
