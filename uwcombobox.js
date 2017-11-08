@@ -143,7 +143,6 @@ function UWCombobox(confObj) {
 				privateObj.view.ajax = UWAjax({
 					url: publicObj.url,
 					method: 'post',
-					//contentType: 'json',
 					contentType: 'form',
 					data: publicObj.data,
 					onsuccess: function(data){
@@ -188,13 +187,17 @@ function UWCombobox(confObj) {
 			
 			/** method to programically close list */
 			publicObj.close = function() {
-				privateObj.view.close();
+				if(privateObj.view) {
+					privateObj.view.close();
+				}
 			};
 			
 			window.addEventListener('resize', function(event){
-				if(privateObj.view) {
-					privateObj.view.resizeBackground();
-                }
+				publicObj.close();
+			});
+			
+			window.addEventListener('scroll', function(event){
+				publicObj.close();
 			});
 		});
 	});

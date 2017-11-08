@@ -52,7 +52,9 @@ function UWComboboxView(directParent) {
 				
 				var tthis = this;
 				privateObj.background.onclick = function(){
-					this.parentNode.removeChild(this);
+					if(this.parentNode) {
+						this.parentNode.removeChild(this);
+					}
 					tthis.closeListView();
 				}
 				this.refreshView();
