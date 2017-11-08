@@ -31,6 +31,7 @@ function UWComboboxView(directParent) {
 			load: null,
 			dataCollection: {},
 			domInput: null,
+			filterValue: '',
 
 			setDefaultButtons: function(buttonsList) {
 				for(var buttonKey in buttonsList) {
@@ -58,6 +59,11 @@ function UWComboboxView(directParent) {
 					tthis.closeListView();
 				}
 				this.refreshView();
+				
+				var inputs = privateObj.listInput.getElementsByTagName('input');
+				for(var i = 0; i<inputs.length; i++) {
+					inputs[i].value = this.filterValue;
+				}
 			},
 			close: function() {
 				if(privateObj.background !== null) {

@@ -112,7 +112,8 @@ function UWCombobox(confObj) {
 			
 			var privateObj = {
 					view: UWComboboxView(publicObj),
-					buttonOpen: null
+					buttonOpen: null,
+					
 			};
 
 			privateObj.view.prepareContainer(confObj.input);
@@ -138,7 +139,17 @@ function UWCombobox(confObj) {
 					buttonDom.className = currentClassName+' loading';
 				}
 				
-				publicObj.data.filter = this.filterValue;
+				publicObj.data.filter = ((Object.prototype.toString.call(this.filterValue) === '[object String]') ? this.filterValue.trim() : '');
+				publicObj.data.q_word = ( publicObj.data.filter.length
+						? publicObj.data.filter.split(' ')
+								.map(function(value) {
+									return value.trim();
+								})
+								.filter(function(value) {
+									return value.replace(/(\r\n|\n|\r)/gm, '');
+								})
+						: []
+					);
 				
 				privateObj.view.ajax = UWAjax({
 					url: publicObj.url,
